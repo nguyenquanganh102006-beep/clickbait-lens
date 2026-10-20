@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "provider": "mock",
+  "external_api_calls": 0,
+  "checks": [
+    "five pages",
+    "xlsx upload",
+    "mapping",
+    "remember dataset",
+    "three tasks",
+    "combined mode",
+    "fresh model check",
+    "dry-run job",
+    "ZIP download",
+    "gold labels preserved",
+    "save five files",
+    "search filter",
+    "full batch job",
+    "fresh session restores provider, dataset and workflow"
+  ],
+  "records": 3,
+  "task_results": 9
+}

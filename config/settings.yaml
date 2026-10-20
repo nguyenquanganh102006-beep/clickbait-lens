@@ -1,0 +1,12 @@
+app:
+  name: KHDL Auto Labeler
+  version: 0.2.0
+  host: 127.0.0.1
+  port: 8501
+
+jobs:
+  requests_per_minute: 10
+  concurrency: 1
+  max_retries: 3
+  max_content_chars: 20000
+  min_consistency_content_chars: 80

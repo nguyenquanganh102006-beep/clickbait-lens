@@ -1,0 +1,11 @@
+version: v1
+clickbait_types:
+  - curiosity_gap
+  - exaggeration
+  - emotional
+  - question_based
+  - misleading
+consistency_labels:
+  - consistent
+  - partial
+  - inconsistent

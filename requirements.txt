@@ -1,0 +1,9 @@
+streamlit>=1.50,<2
+pandas>=2.2,<4
+openpyxl>=3.1,<4
+pydantic>=2.7,<3
+PyYAML>=6,<7
+google-genai>=2.31,<3
+openai>=1.40,<4
+pytest>=8,<10
+pyarrow>=17,<27
