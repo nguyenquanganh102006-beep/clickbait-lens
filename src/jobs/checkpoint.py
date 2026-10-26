@@ -36,6 +36,10 @@ def build_cache_key(
     if mode == "combined":
         for selected_task in selected_tasks:
             request_input.update(_task_input(record, selected_task))
+    context_tasks = set(selected_tasks) if mode == "combined" else {task}
+    if prompt_version != "v1" and context_tasks.intersection({"type", "consistency"}):
+        for field in ("lead", "content_is_complete", "content_truncated"):
+            request_input[field] = record.get(field)
     input_json = json.dumps(request_input, ensure_ascii=False, sort_keys=True, separators=(",", ":"), default=str)
     input_hash = hashlib.sha256(input_json.encode("utf-8")).hexdigest()
     key_material = {

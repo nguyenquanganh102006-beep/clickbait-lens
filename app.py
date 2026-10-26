@@ -5,17 +5,6 @@ from __future__ import annotations
 import streamlit as st
 from src import __version__
 
-from src.ui.dataset import render_dataset_tab
-from src.ui.jobs import render_jobs_tab
-from src.ui.provider import render_provider_tab
-from src.ui.results import render_results_tab
-from src.ui.tasks import render_tasks_tab
-from src.ui import local_memory
-from src.ui.provider import PROVIDER_LABELS
-from src.data.mapping import normalize_records, diagnose_dataset
-from src.ui.activity import render_activity_history
-
-
 st.set_page_config(
     page_title="KHDL Auto Labeler",
     page_icon="📰",
@@ -23,6 +12,16 @@ st.set_page_config(
 )
 
 st.title("KHDL Auto Labeler")
+with st.spinner("Đang khởi động ứng dụng, vui lòng chờ…"):
+    from src.ui.dataset import render_dataset_tab
+    from src.ui.jobs import render_jobs_tab
+    from src.ui.provider import render_provider_tab, PROVIDER_LABELS
+    from src.ui.results import render_results_tab
+    from src.ui.tasks import render_tasks_tab
+    from src.ui import local_memory
+    from src.data.mapping import normalize_records, diagnose_dataset
+    from src.ui.activity import render_activity_history
+
 st.caption(f"Công cụ gán nhãn giả clickbait chạy cục bộ cho nhóm KHDL · v{__version__}")
 if not st.session_state.get("local_memory_loaded"):
     st.session_state["local_memory_loaded"] = True

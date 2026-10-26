@@ -27,8 +27,9 @@ SYSTEM_INSTRUCTION = (
 class GeminiProvider(LLMProvider):
     provider_name = "gemini"
 
-    def __init__(self, api_key: str, model: str, timeout_seconds: int = 60) -> None:
+    def __init__(self, api_key: str, model: str, timeout_seconds: int = 60, *, max_output_tokens: int = 4096) -> None:
         super().__init__(api_key, model, timeout_seconds)
+        self.max_output_tokens = max_output_tokens
         if not self.api_key:
             raise ProviderError("Cần nhập Gemini API key.", kind="authentication")
         try:
@@ -81,7 +82,7 @@ class GeminiProvider(LLMProvider):
                     # conversion only accepts strings in enum values.
                     response_json_schema=output_schema.model_json_schema(),
                     temperature=0,
-                    max_output_tokens=2048,
+                    max_output_tokens=self.max_output_tokens,
                 ),
             )
         except Exception as exc:
@@ -97,7 +98,13 @@ class GeminiProvider(LLMProvider):
             elif raw_text:
                 parsed = output_schema.model_validate_json(raw_text)
             else:
-                raise ProviderError("Gemini không trả về nội dung JSON.", kind="invalid_response")
+                candidates = getattr(response, "candidates", None) or []
+                finish = str(getattr(candidates[0], "finish_reason", "") or "") if candidates else ""
+                blocked = any(word in finish.upper() for word in ("SAFETY", "PROHIBITED", "BLOCKLIST"))
+                raise ProviderError(
+                    f"Gemini không trả về nội dung JSON (finish_reason={finish or 'unknown'}).",
+                    kind="refusal" if blocked else "invalid_response", retryable=not blocked,
+                )
         except ValidationError as exc:
             raise ProviderError(
                 "Kết quả Gemini không khớp schema đã yêu cầu.",

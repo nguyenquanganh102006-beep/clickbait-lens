@@ -19,6 +19,7 @@ def test_release_archive_contains_app_and_excludes_local_data_and_runtime(tmp_pa
     assert "USER_GUIDE.md" in names
     assert "docs/screenshots/app.png" in names
     assert "src/jobs/runner.py" in names
+    assert {"prompts/detection_v2.md", "prompts/type_v2.md", "prompts/consistency_v2.md", "docs/LABELING_V2.md"} <= names
     assert "data/input/.gitkeep" in names
     assert not any(name.startswith(".venv/") or "/__pycache__/" in name for name in names)
     assert not any(name.startswith("state/") and not name.endswith(".gitkeep") for name in names)

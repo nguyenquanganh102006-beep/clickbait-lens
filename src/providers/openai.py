@@ -69,7 +69,7 @@ class OpenAIProvider(LLMProvider):
                         "schema": schema,
                     },
                 },
-                max_completion_tokens=2048,
+                max_completion_tokens=4096,
             )
         except Exception as exc:
             raise self._map_exception(exc) from exc

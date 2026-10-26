@@ -6,6 +6,12 @@ Công cụ Streamlit chạy trên máy cá nhân để tạo **pseudo-label** ch
 
 Pseudo-label do LLM tạo ra không thay thế gold label, human review hoặc đánh giá mô hình.
 
+Prompt mặc định hiện là **v2**: gán clickbait theo thủ pháp rõ rệt thay vì từ khóa; đọc sapo như ngữ cảnh bổ sung khi có thân bài; đối chiếu các khẳng định, thời gian và phạm vi của tiêu đề. Các trường hợp Detection=1 nhưng Type rỗng, hoặc Type có `misleading` nhưng Consistency=`consistent`, được đưa vào hàng chờ rà soát kể cả khi confidence cao. Nhãn không bị tự sửa để ép khớp giữa các tác vụ.
+
+Type được đánh giá tách phần thủ pháp tiêu đề và phần sai lệch nội dung trong cùng yêu cầu API; phần sau không được xóa thủ pháp tiêu đề đã nhận diện. Consistency kiểm tra độ đầy đủ của thân bài và yêu cầu một đoạn bằng chứng nguyên văn trong `content`. Trường hợp chỉ có ngữ cảnh chung hoặc dữ liệu không đồng bộ được giữ để rà soát, thay vì mặc định bài báo sai.
+
+Muốn áp dụng rubric mới, hãy tạo **job mới**. Job cũ tiếp tục dùng phiên bản prompt đã ghi nhận; kết quả cũ không bị ghi đè. Do kiểm tra kết nối gắn với phiên bản prompt, cần kiểm tra lại model cho v2 ở bước 1 hoặc bước 4.
+
 ## Tác vụ
 
 - **Clickbait Detection:** phân loại tiêu đề `0` (Non-clickbait) hoặc `1` (Clickbait).
@@ -17,6 +23,17 @@ Lead/sapo không được xem là toàn văn. Tên cột nguồn và nhãn gốc
 ## Cài đặt và chạy trên Windows
 
 Yêu cầu Python 3.11 trở lên.
+
+Lấy phiên bản ứng dụng có cơ chế gán nhãn v2:
+
+```powershell
+git clone --branch feat/auto-labeler-v0.2.0 --single-branch https://github.com/nguyenquanganh102006-beep/clickbait-lens.git
+cd clickbait-lens
+.\scripts\setup_windows.bat
+.\scripts\run_windows.bat
+```
+
+Mở <http://127.0.0.1:8501>. Ở bước 3, kiểm tra dòng **Prompt v2**. Cấu hình API key của riêng bạn, kiểm tra model cho các tác vụ cần chạy, ánh xạ `title`, `content` và `lead`/`sapo`, rồi tạo job mới. Xem [hướng dẫn cơ chế v2](docs/LABELING_V2.md) để hiểu điều kiện gán nhãn và rà soát.
 
 Mở nhanh trên Windows: chạy **`CHAY_UNG_DUNG.bat`**. Lần đầu script tạo môi trường và cài thư viện; những lần sau chỉ khởi chạy. Nếu ứng dụng đã chạy sẵn, mở <http://localhost:8501>.
 

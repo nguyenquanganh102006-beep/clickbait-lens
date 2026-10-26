@@ -68,10 +68,18 @@ def _example_value(schema: dict[str, Any], prompt: str, definitions: dict[str, A
         return None if target is None else _example_value(target, prompt, definitions)
     value_type = schema.get("type")
     if value_type == "object":
-        return {
+        value = {
             key: _example_value(child, prompt, definitions)
             for key, child in schema.get("properties", {}).items()
         }
+        if "body_evidence" in value:
+            start = prompt.find('{"title":')
+            try:
+                payload, _ = json.JSONDecoder().raw_decode(prompt[start:])
+                value["body_evidence"] = str(payload.get("content") or "")[:80] or None
+            except (ValueError, TypeError):
+                value["body_evidence"] = None
+        return value
     if value_type == "array":
         return []
     if value_type == "string":

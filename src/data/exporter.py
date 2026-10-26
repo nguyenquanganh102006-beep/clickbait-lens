@@ -42,6 +42,18 @@ def review_reasons(
 ) -> list[dict[str, Any]]:
     """Return task-level reasons for adding a record to the human review queue."""
     reasons: list[dict[str, Any]] = []
+    cross_flags: dict[str, str] = {}
+    detection = tasks.get("detection", {})
+    typed = tasks.get("type", {})
+    consistency = tasks.get("consistency", {})
+    if detection.get("status") == typed.get("status") == "success":
+        if (detection.get("output") or {}).get("label") == 1 and (typed.get("output") or {}).get("labels") == []:
+            cross_flags["type"] = "detection_positive_type_empty"
+        elif (detection.get("output") or {}).get("label") == 0 and set((typed.get("output") or {}).get("labels") or []) - {"misleading"}:
+            cross_flags["type"] = "detection_negative_with_type_labels"
+    if typed.get("status") == consistency.get("status") == "success":
+        if "misleading" in ((typed.get("output") or {}).get("labels") or []) and (consistency.get("output") or {}).get("label") == "consistent":
+            cross_flags["consistency"] = "misleading_but_consistent"
     for task, result in tasks.items():
         status = str(result.get("status") or "pending")
         output = result.get("output") or {}
@@ -57,6 +69,8 @@ def review_reasons(
             reason = "low_confidence"
         if result.get("input_truncated"):
             reason = "input_truncated" if reason is None else f"{reason};input_truncated"
+        if task in cross_flags:
+            reason = cross_flags[task] if reason is None else f"{reason};{cross_flags[task]}"
         if reason:
             reasons.append(
                 {
