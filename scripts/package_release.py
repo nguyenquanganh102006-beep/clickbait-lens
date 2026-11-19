@@ -20,13 +20,10 @@ ROOT_FILES = (
     "app.py",
     "pyproject.toml",
     "README.md",
-    "USER_GUIDE.md",
-    "DEVELOPER_GUIDE.md",
     "requirements.txt",
     "requirements-lock.txt",
     "requirements-dev.txt",
     "CHAY_UNG_DUNG.bat",
-    "KHDL_Auto_Labeler_Implementation_Plan.md",
 )
 PACKAGE_DIRS = ("src", "config", "prompts", "scripts", "tests", "docs")
 PLACEHOLDER_DIRS = (
@@ -37,6 +34,7 @@ PLACEHOLDER_DIRS = (
 )
 SKIP_PARTS = {".venv", "venv", "__pycache__", ".pytest_cache", "build", "dist", ".git"}
 SECRET_PATTERNS = (
+    re.compile(r"\bAQ\.[A-Za-z0-9_-]{35,}\b"),
     re.compile(r"\bsk-[A-Za-z0-9_-]{24,}\b"),
     re.compile(r"\bAIza[0-9A-Za-z_-]{30,}\b"),
     re.compile(r"\bAKIA[0-9A-Z]{16}\b"),

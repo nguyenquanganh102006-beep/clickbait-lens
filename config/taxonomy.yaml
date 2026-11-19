@@ -1,11 +1,16 @@
-version: v1
+version: multimodal-v4.1-reference-consensus
 clickbait_types:
   - curiosity_gap
   - exaggeration
-  - emotional
+  - emotional_bait
   - question_based
-  - misleading
+  - misleading_presentation
+misleading_subtypes:
+  - framing
+  - image_text_mismatch
+  - context_manipulation
 consistency_labels:
-  - consistent
-  - partial
-  - inconsistent
+  - Consistent
+  - Inconsistent
+  - Insufficient Evidence
+  - Not Available

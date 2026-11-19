@@ -69,12 +69,17 @@ class GeminiProvider(LLMProvider):
         prompt: str,
         output_schema: type[OutputModel],
     ) -> ProviderResponse:
+        return self.generate_multimodal(prompt, output_schema, None)
+
+    def generate_multimodal(self, prompt, output_schema, image, mime_type="image/jpeg") -> ProviderResponse:
         try:
             from google.genai import types
 
+            contents = prompt if image is None else [prompt, types.Part.from_bytes(data=image, mime_type=mime_type)]
+
             response = self._client.models.generate_content(
                 model=self.model,
-                contents=prompt,
+                contents=contents,
                 config=types.GenerateContentConfig(
                     system_instruction=SYSTEM_INSTRUCTION,
                     response_mime_type="application/json",

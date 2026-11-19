@@ -74,6 +74,13 @@ class LLMProvider(ABC):
         """Return a rough text-only estimate; this is not provider usage."""
         return max(1, (len(text) + 3) // 4)
 
+    def generate_multimodal(self, prompt: str, output_schema: type[OutputModel],
+                            image: bytes | None, mime_type: str = "image/jpeg") -> ProviderResponse:
+        """Explicit vision entry point; never silently discard an attached image."""
+        if image is not None:
+            raise ProviderError("Provider chưa hỗ trợ gửi ảnh thực tế.", kind="configuration")
+        return self.generate_structured(prompt, output_schema)
+
 
 def sanitize_error_message(message: object, api_key: str = "") -> str:
     """Strip credential text and truncate provider details before displaying."""

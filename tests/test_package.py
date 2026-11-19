@@ -13,13 +13,13 @@ def test_release_archive_contains_app_and_excludes_local_data_and_runtime(tmp_pa
         manifest = json.loads(archive.read("release-manifest.json"))
         for name, digest in manifest["files"].items():
             assert hashlib.sha256(archive.read(name)).hexdigest() == digest
-        assert manifest["version"] == "0.2.0"
+        assert manifest["version"] == "4.1.0"
 
     assert "app.py" in names
-    assert "USER_GUIDE.md" in names
-    assert "docs/screenshots/app.png" in names
-    assert "src/jobs/runner.py" in names
-    assert {"prompts/detection_v2.md", "prompts/type_v2.md", "prompts/consistency_v2.md", "docs/LABELING_V2.md"} <= names
+    assert "docs/ANNOTATION.md" in names
+    assert "config/annotation_response.schema.json" in names
+    assert "src/labeling/quality.py" in names
+    assert {"prompts/multimodal.md", "prompts/review.md", "docs/ANNOTATION.md"} <= names
     assert "data/input/.gitkeep" in names
     assert not any(name.startswith(".venv/") or "/__pycache__/" in name for name in names)
     assert not any(name.startswith("state/") and not name.endswith(".gitkeep") for name in names)

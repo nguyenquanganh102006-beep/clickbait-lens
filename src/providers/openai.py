@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import TypeVar
+import base64
 
 from pydantic import BaseModel, ValidationError
 
@@ -52,14 +53,21 @@ class OpenAIProvider(LLMProvider):
         prompt: str,
         output_schema: type[OutputModel],
     ) -> ProviderResponse:
+        return self.generate_multimodal(prompt, output_schema, None)
+
+    def generate_multimodal(self, prompt, output_schema, image, mime_type="image/jpeg") -> ProviderResponse:
         schema = output_schema.model_json_schema()
         schema["additionalProperties"] = False
+        content = prompt if image is None else [
+            {"type": "text", "text": prompt},
+            {"type": "image_url", "image_url": {"url": f"data:{mime_type};base64," + base64.b64encode(image).decode("ascii")}},
+        ]
         try:
             response = self._client.chat.completions.create(
                 model=self.model,
                 messages=[
                     {"role": "system", "content": SYSTEM_INSTRUCTION},
-                    {"role": "user", "content": prompt},
+                    {"role": "user", "content": content},
                 ],
                 response_format={
                     "type": "json_schema",

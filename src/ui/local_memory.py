@@ -14,7 +14,7 @@ from zipfile import ZipFile
 
 import pandas as pd
 from src.paths import STATE_DIR as APP_STATE_DIR
-from src.jobs.storage import _json_clean
+from src.data.json_utils import _json_clean
 
 STATE_DIR = APP_STATE_DIR / "remembered"
 _FILE_LOCK = threading.RLock()

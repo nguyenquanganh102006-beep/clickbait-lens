@@ -142,7 +142,9 @@ def test_gemini_adapter_uses_structured_schema_and_parses_usage(monkeypatch):
 
 def test_gemini_detection_numeric_enum_and_raw_json(monkeypatch):
     from google import genai
-    from src.labeling.schemas import DetectionOutput
+    from typing import Literal
+    class DetectionOutput(ExampleOutput):
+        label: Literal[0, 1] | None
 
     received = {}
 

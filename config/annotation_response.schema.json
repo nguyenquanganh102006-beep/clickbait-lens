@@ -1,0 +1,231 @@
+{
+  "$defs": {
+    "ReferenceEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "text_reference": {
+          "anyOf": [
+            {
+              "enum": [
+                "title",
+                "lead"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Text Reference"
+        },
+        "content_paragraph_id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Content Paragraph Id"
+        },
+        "image_observation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Image Observation"
+        }
+      },
+      "required": [
+        "text_reference",
+        "content_paragraph_id",
+        "image_observation"
+      ],
+      "title": "ReferenceEvidence",
+      "type": "object"
+    },
+    "ReferenceRelation": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "enum": [
+            "Consistent",
+            "Inconsistent",
+            "Insufficient Evidence",
+            "Not Available"
+          ],
+          "title": "Label",
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/ReferenceEvidence"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "evidence",
+        "reason"
+      ],
+      "title": "ReferenceRelation",
+      "type": "object"
+    },
+    "ReferenceType": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Label"
+        },
+        "evidence": {
+          "$ref": "#/$defs/ReferenceEvidence"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "evidence",
+        "reason"
+      ],
+      "title": "ReferenceType",
+      "type": "object"
+    },
+    "ReferenceTypes": {
+      "additionalProperties": false,
+      "properties": {
+        "curiosity_gap": {
+          "$ref": "#/$defs/ReferenceType"
+        },
+        "exaggeration": {
+          "$ref": "#/$defs/ReferenceType"
+        },
+        "emotional_bait": {
+          "$ref": "#/$defs/ReferenceType"
+        },
+        "question_based": {
+          "$ref": "#/$defs/ReferenceType"
+        },
+        "misleading_presentation": {
+          "$ref": "#/$defs/ReferenceType"
+        }
+      },
+      "required": [
+        "curiosity_gap",
+        "exaggeration",
+        "emotional_bait",
+        "question_based",
+        "misleading_presentation"
+      ],
+      "title": "ReferenceTypes",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "image_assessment": {
+      "enum": [
+        "usable",
+        "placeholder",
+        "unreadable",
+        "not_available",
+        "uncertain"
+      ],
+      "title": "Image Assessment",
+      "type": "string"
+    },
+    "types": {
+      "$ref": "#/$defs/ReferenceTypes"
+    },
+    "misleading_subtype": {
+      "anyOf": [
+        {
+          "items": {
+            "enum": [
+              "framing",
+              "image_text_mismatch",
+              "context_manipulation"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Misleading Subtype"
+    },
+    "clickbait_label": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Clickbait Label"
+    },
+    "consistency_tc": {
+      "$ref": "#/$defs/ReferenceRelation"
+    },
+    "consistency_ti": {
+      "$ref": "#/$defs/ReferenceRelation"
+    },
+    "consistency_ic": {
+      "$ref": "#/$defs/ReferenceRelation"
+    },
+    "confidence": {
+      "anyOf": [
+        {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Confidence"
+    },
+    "annotation_notes": {
+      "title": "Annotation Notes",
+      "type": "string"
+    }
+  },
+  "required": [
+    "image_assessment",
+    "types",
+    "misleading_subtype",
+    "clickbait_label",
+    "consistency_tc",
+    "consistency_ti",
+    "consistency_ic",
+    "confidence",
+    "annotation_notes"
+  ],
+  "title": "ReferenceOutput",
+  "type": "object"
+}
