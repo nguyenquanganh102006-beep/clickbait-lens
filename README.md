@@ -1,13 +1,13 @@
 # KHDL Auto Labeler 4.1.0
 
-Công cụ tạo pseudo-label cho bài báo tiếng Việt từ tiêu đề, toàn văn và ảnh JPEG. Phiên bản chính trên nhánh `main` chỉ dùng quy trình v4.1: hai lượt đánh giá mù, phân xử tối đa một lượt khi cần, bằng chứng tham chiếu đoạn và đồng thuận theo từng nhãn.
+Công cụ tạo pseudo-label cho bài báo tiếng Việt từ tiêu đề, toàn văn và ảnh JPEG. Bản hiện hành trên nhánh `feat/auto-labeler-v0.2.0` chỉ dùng quy trình v4.1: hai lượt đánh giá mù, phân xử tối đa một lượt khi cần, bằng chứng tham chiếu đoạn và đồng thuận theo từng nhãn.
 
 ## Cài đặt và chạy
 
 Yêu cầu Python 3.11 trở lên.
 
 ```powershell
-git clone https://github.com/nguyenquanganh102006-beep/clickbait-lens.git
+git clone --branch feat/auto-labeler-v0.2.0 --single-branch https://github.com/nguyenquanganh102006-beep/clickbait-lens.git
 cd clickbait-lens
 .\scripts\setup_windows.bat
 .\scripts\run_windows.bat
