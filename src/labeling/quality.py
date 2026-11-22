@@ -129,7 +129,8 @@ def consensus(outputs,record,has_image):
     for t in TARGETS:
         votes=Counter(_value(o,t) for o,b in zip(outputs,blocked) if t not in b)
         winner,count=votes.most_common(1)[0] if votes else (None,0)
-        if count<2 or winner is None:
+        tied=sum(n==count for n in votes.values())>1
+        if count<2 or winner is None or tied:
             masks[t]=False;notes.append('unresolved:'+t)
             if t in TYPES:getattr(result.types,t).label=None
             elif t=='detection':result.clickbait_label=None

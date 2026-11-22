@@ -27,3 +27,7 @@ state/*
 # Generated request payloads are private, never source code
 luna*.jsonl
 *.tmp
+
+# Local annotation helpers and private run logs
+.tmp_*.py
+/docs/AI_AGENT_LOG.md
