@@ -1,13 +1,23 @@
 # Quy trình Git của nhóm
 
-Nhánh tích hợp hiện tại **feat/shared-research-scaffold**; main là bản ổn định. Không push trực tiếp/force-push main. Đưa lên main sau khi nhóm chấp nhận bản tích hợp. Tool labeler vẫn có nhánh feat/auto-labeler-v0.2.0.
+Nhánh tích hợp hiện tại **develop**; main là bản ổn định. Không push trực tiếp/force-push main. Đưa lên main sau khi nhóm chấp nhận bản tích hợp. Tool labeler vẫn có nhánh feat/auto-labeler-v0.2.0.
 
 ## Nhận việc
 
+Ba nhánh task dùng chung, đều tách từ develop:
+
+- `feat/detection`: Clickbait Detection.
+- `feat/type-classification`: Clickbait Type Classification.
+- `feat/consistency`: Title–Content–Image Consistency.
+
+Mỗi nhóm task tích hợp thay đổi vào nhánh task của mình rồi mở PR về develop.
+Nhánh cá nhân có thể tách từ nhánh task và PR trở lại nhánh task trước khi tích hợp.
+Không rebase hoặc force-push ba nhánh task dùng chung.
+
 ```bash
 git fetch origin
-git switch feat/shared-research-scaffold
-git pull --ff-only origin feat/shared-research-scaffold
+git switch develop
+git pull --ff-only origin develop
 git switch -c feat/detection-phobert
 ```
 

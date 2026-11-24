@@ -1,9 +1,9 @@
 name: research-ci
 on:
   push:
-    branches: ['main', 'feat/**', 'fix/**']
+    branches: ['main', 'develop', 'feat/**', 'fix/**']
   pull_request:
-    branches: ['main', 'feat/auto-labeler-v0.2.0', 'feat/shared-research-scaffold']
+    branches: ['main', 'feat/auto-labeler-v0.2.0', 'develop']
 jobs:
   research:
     strategy:

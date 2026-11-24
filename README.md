@@ -1,6 +1,6 @@
 # Multimodal Clickbait Detection
 
-Repository chung cho Clickbait Detection, Clickbait Type Classification và Title–Content–Image Consistency. Tên GitHub hiện tại vẫn là `clickbait-lens`; bộ khung nghiên cứu trên nhánh **`feat/shared-research-scaffold`**. Tool gán nhãn hiện có được giữ lại, xem [hướng dẫn labeler](docs/LABELER.md).
+Repository chung cho Clickbait Detection, Clickbait Type Classification và Title–Content–Image Consistency. Tên GitHub hiện tại vẫn là `clickbait-lens`; bộ khung nghiên cứu trên nhánh **`develop`**. Tool gán nhãn hiện có được giữ lại, xem [hướng dẫn labeler](docs/LABELER.md).
 
 ## Cấu trúc
 
@@ -26,7 +26,7 @@ tests/research/             # Không cần dữ liệu thật
 Chốt **Python 3.12, PyTorch 2.6.0, NumPy, Pillow, YAML** cho core nghiên cứu. Encoder PhoBERT/XLM-R/CLIP/ViT do từng thành viên bổ sung; khóa model ID, revision và dependency trong config/requirements của thí nghiệm. Bộ khung chưa tải pretrained model hoặc chạy thí nghiệm chính thức.
 
 ```powershell
-git clone --branch feat/shared-research-scaffold https://github.com/nguyenquanganh102006-beep/clickbait-lens.git multimodal-clickbait-detection
+git clone --branch develop https://github.com/nguyenquanganh102006-beep/clickbait-lens.git multimodal-clickbait-detection
 cd multimodal-clickbait-detection
 py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
@@ -69,7 +69,7 @@ Batch giữ text/PIL image dạng list để mỗi model dùng tokenizer/transfo
 - Hạ tầng chung ở `src/common/`; đổi API/schema cần nêu tác động trong PR và thêm kiểm tra.
 - Model trả logits theo contract; dùng chung loss/metrics/exporter. Consistency độc lập với Detection/Type.
 - Mỗi experiment có config, run ID, Git SHA, dataset/split/schema fingerprint và provenance nhãn. Xem [format artifact](docs/RESEARCH_CONTRACTS.md).
-- Nhánh tích hợp hiện tại `feat/shared-research-scaffold`. Thành viên tạo `feat/<task>-<slug>` rồi PR về nhánh tích hợp. Xem [quy trình Git](CONTRIBUTING.md).
+- Nhánh tích hợp `develop`; ba nhánh task là `feat/detection`, `feat/type-classification`, `feat/consistency`. Mỗi task mở PR về develop. Xem [quy trình Git](CONTRIBUTING.md).
 
 ## Kiểm tra nhanh
 
