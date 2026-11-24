@@ -29,7 +29,7 @@ CSV đầu vào cần `article_id`, `title`, `content`, `image_path`; các trư�
 - `label_mask_json` xác định target có ít nhất hai phiếu hợp lệ đồng thuận. Chỉ dùng target có mask=true; Unknown không bị ép thành 0.
 - Lưu evidence, phản hồi từng lượt, model, usage, timestamp và checksum. Toàn bộ human review vẫn pending cho đến khi người xác nhận.
 
-Xem [hướng dẫn nhãn và phục hồi](docs/ANNOTATION.md). Các lượt mù dùng cùng model qua các yêu cầu riêng, có thể cùng sai; cần gold độc lập để đánh giá accuracy/F1. Mỗi bài dùng 2–3 phân tích, mỗi yêu cầu retry tạm thời tối đa hai lần, tôn trọng nhịp API đã cấu hình.
+Xem [hướng dẫn nhãn và phục hồi](ANNOTATION.md). Các lượt mù dùng cùng model qua các yêu cầu riêng, có thể cùng sai; cần gold độc lập để đánh giá accuracy/F1. Mỗi bài dùng 2–3 phân tích, mỗi yêu cầu retry tạm thời tối đa hai lần, tôn trọng nhịp API đã cấu hình.
 
 ## CLI pilot
 
@@ -54,4 +54,4 @@ Kiểm tra kết quả đã lưu không gọi API:
 .\.venv\Scripts\python.exe scripts/package_release.py
 ```
 
-Mã chính ở `src/labeling/quality.py`; tiện ích input/evidence ở `src/labeling/multimodal.py`; schema API ở `config/annotation_response.schema.json`; prompt ở `prompts/`. Gói phát hành loại trừ dataset, key và state cục bộ. [Danh mục dọn dẹp](docs/CLEANUP.json) ghi các file đã xóa khi chọn bản chính; lịch sử code cũ vẫn có trong Git.
+Mã chính ở `src/labeling/quality.py`; tiện ích input/evidence ở `src/labeling/multimodal.py`; schema API ở `config/annotation_response.schema.json`; prompt ở `prompts/`. Gói phát hành loại trừ dataset, key và state cục bộ. [Danh mục dọn dẹp](CLEANUP.json) ghi các file đã xóa khi chọn bản chính; lịch sử code cũ vẫn có trong Git.
