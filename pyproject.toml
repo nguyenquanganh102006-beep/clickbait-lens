@@ -20,12 +20,17 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+research = ["torch==2.6.0", "numpy==2.3.5", "Pillow==12.3.0", "PyYAML==6.0.3"]
 dev = ["pytest>=8,<10"]
 browser = ["playwright>=1.50,<2"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+
+[tool.black]
+line-length = 100
+target-version = ['py312']
 
 [tool.setuptools]
 py-modules = ["app"]

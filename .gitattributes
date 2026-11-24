@@ -1,0 +1,10 @@
+* text=auto
+*.py text eol=lf
+*.md text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+.gitattributes text eol=lf
+# These versioned CSV bytes are hashed in the dataset release; do not rewrite CR/LF.
+data/manifests/** -text whitespace=cr-at-eol

@@ -1,0 +1,57 @@
+{
+  "dataset_version": "1.0",
+  "seed": 20261124,
+  "input_features": [
+    "title",
+    "content",
+    "image"
+  ],
+  "optional_features": [
+    "lead",
+    "image_caption"
+  ],
+  "metadata_not_features": [
+    "source",
+    "contributor",
+    "label_provider",
+    "annotation_model",
+    "source_level"
+  ],
+  "detection": {
+    "column": "clickbait_label",
+    "classes": {
+      "0": "Non-clickbait",
+      "1": "Clickbait"
+    }
+  },
+  "types": [
+    "curiosity_gap",
+    "exaggeration",
+    "emotional_bait",
+    "question_based",
+    "misleading_presentation"
+  ],
+  "type_columns": [
+    "type_curiosity_gap",
+    "type_exaggeration",
+    "type_emotional_bait",
+    "type_question_based",
+    "type_misleading_presentation"
+  ],
+  "consistency_columns": [
+    "consistency_tc",
+    "consistency_ti",
+    "consistency_ic"
+  ],
+  "consistency_classes": {
+    "Consistent": 0,
+    "Inconsistent": 1,
+    "Insufficient Evidence": 2
+  },
+  "not_available": {
+    "encoded": -100,
+    "loss_mask": 0
+  },
+  "guideline_version": "guideline-a76613e42e7e",
+  "gold_policy": "Two independent human reviews; adjudication for disagreements; no AI fallback."
+}

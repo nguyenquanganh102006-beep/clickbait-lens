@@ -1,0 +1,24 @@
+name: research-ci
+on:
+  push:
+    branches: ['main', 'feat/**', 'fix/**']
+  pull_request:
+    branches: ['main', 'feat/auto-labeler-v0.2.0', 'feat/shared-research-scaffold']
+jobs:
+  research:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: 'requirements-research*.txt'
+      - run: python -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install -r requirements-research-dev.txt
+      - run: python -m black --check src/common src/detection src/type_classification src/consistency scripts/smoke_research.py scripts/validate_research_dataset.py tests/research
+      - run: python -m pytest tests/research -q
+      - run: python scripts/smoke_research.py --synthetic

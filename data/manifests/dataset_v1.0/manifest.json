@@ -1,0 +1,47 @@
+{
+  "dataset_version": "1.0",
+  "seed": 20261124,
+  "source_sha256": "a96fea5354c79eee5b40278c5474c0b2d555c5fc19e64cfca61f6f869b9cc0ea",
+  "group_source_sha256": "542d41173f3c406a8ddeb8a8d8517db47c8e41738119e559bf644ba63af11897",
+  "guideline_sha256": "a76613e42e7e05b844c97d66effaf95ab0260f933253a5bca1651e98acb1c900",
+  "design_sha256": "2c8097f787145bddd1c961ce5b602cdac34f1386549a8d3b41922398ae0db5f9",
+  "split_counts": {
+    "test": 4207,
+    "train": 19629,
+    "validation": 4206
+  },
+  "gold_test_status": "awaiting_two_human_reviews",
+  "gold_verified_articles": 0,
+  "image_storage": "images/; local junction, copy physical images when distributing",
+  "algorithm": "seeded rare-first group greedy weighted marginal squared error + 100000 equal-size swap attempts",
+  "protected_sha256": {
+    "data.csv": "2148ea17721f1926cf75bb17a1816bc9ea593d6ea04c5e7479dad2079a117e05",
+    "split_assignments.csv": "bba1d278db060c211a3889945200396a731886d85afb321cd84d7bf44505ed6d",
+    "label_schema.json": "04adef06ebc7d8d5e9120f5f5170fd13e395fc5b9e2f044ba2d2235bf78021bf",
+    "image_manifest.csv": "96f02e60775a757c2f9eda53407ff0289d5b992c48c93c06ed72ecdfa7243876",
+    "split_distribution.csv": "19b4e1cbc569e8584ad6b89d92849e40c3a463b4e14628389c7b848cd01e2612",
+    "dataset.py": "86fb4966823ff47eee931223fa1d686aa9fb3f6d878be6940cbb5a297cdbaebb",
+    "finalize_gold.py": "803b32b9b0918cf1a13fa5aeef4f443afdf6dc1aaf2eb9c26a754b2183889e5a",
+    "verify_images.py": "4897e7d8e6c4689feb0b1cd037ddf2612efb0666bb68ba7f649fd5816f89782f",
+    "test_dataset.py": "42a5155ed7a8b6389a17a420f7c5b11b55dfd48daade54896bc917dcffe70887",
+    "requirements.txt": "c2b8673dde9b571ed4dc773db529064c777386db9d1ab228b0459749260fe598",
+    "README.txt": "85cb788afa6be1cceda160ce0eb33a8e766f0645ba3e1cf278f36adacf0ce1dc",
+    "validation_report.json": "76fb2e373e576f4f283b5688d47467f61936b6ea49d3662af19ab3f63494435e",
+    "splits/train.csv": "8563105ebef7c13de147c21060703d113e92525daa8169c04571115050a4ece1",
+    "splits/validation.csv": "08778afb9e058bd69912499bae78d7da09944ed78d1e89a49336953fb9784650",
+    "splits/test.csv": "e2b4579de2fc63068945ece696f987210109cd02835193c79bcc0664cde2ffe4",
+    "gold_review/review_inputs.csv": "49962be2154c103267d120388966df85e371ef0d0363fa6f4ad898e77fe84b67",
+    "guidelines/Phân tích + Thiết kế bài toán.docx": "2c8097f787145bddd1c961ce5b602cdac34f1386549a8d3b41922398ae0db5f9",
+    "guidelines/quy tắc gán nhãn.docx": "a76613e42e7e05b844c97d66effaf95ab0260f933253a5bca1651e98acb1c900"
+  },
+  "release_status": "fixed_splits_ready_gold_pending",
+  "sealed_at": "2026-11-24T16:49:34.724520+07:00",
+  "image_bytes": 2380585286,
+  "image_count": 28042,
+  "runtime": {
+    "numpy": "2.3.5",
+    "Pillow": "12.3.0"
+  },
+  "builder_sha256": "34b93e1132623a5b3c0bc01c7c7399faceb30b8959cc27618844a040e8621a17",
+  "inventory_builder_sha256": "8bc2163bb61843444d02adb56658c6b9b6f5a6638bfb2381188713db3ea86e12"
+}

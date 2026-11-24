@@ -31,3 +31,30 @@ luna*.jsonl
 # Local annotation helpers and private run logs
 .tmp_*.py
 /docs/AI_AGENT_LOG.md
+
+# Research runs, local snapshots and model binaries
+/experiments/*
+!/experiments/.gitkeep
+/checkpoints/*
+!/checkpoints/.gitkeep
+/results/*
+!/results/.gitkeep
+/data/local/
+/data/datasets/
+images/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.zip
+*.parquet
+*.csv
+!/data/manifests/**/*.csv
+*.log
+*.jsonl
+!tests/fixtures/**/*.jsonl
+!docs/examples/*.jsonl
+.ruff_cache/
+.coverage
+htmlcov/

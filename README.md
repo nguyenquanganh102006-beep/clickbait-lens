@@ -1,57 +1,83 @@
-# KHDL Auto Labeler 4.1.0
+# Multimodal Clickbait Detection
 
-Công cụ tạo pseudo-label cho bài báo tiếng Việt từ tiêu đề, toàn văn và ảnh JPEG. Bản hiện hành trên nhánh `feat/auto-labeler-v0.2.0` chỉ dùng quy trình v4.1: hai lượt đánh giá mù, phân xử tối đa một lượt khi cần, bằng chứng tham chiếu đoạn và đồng thuận theo từng nhãn.
+Repository chung cho Clickbait Detection, Clickbait Type Classification và Title–Content–Image Consistency. Tên GitHub hiện tại vẫn là `clickbait-lens`; bộ khung nghiên cứu trên nhánh **`feat/shared-research-scaffold`**. Tool gán nhãn hiện có được giữ lại, xem [hướng dẫn labeler](docs/LABELER.md).
 
-## Cài đặt và chạy
+## Cấu trúc
 
-Yêu cầu Python 3.11 trở lên.
-
-```powershell
-git clone --branch feat/auto-labeler-v0.2.0 --single-branch https://github.com/nguyenquanganh102006-beep/clickbait-lens.git
-cd clickbait-lens
-.\scripts\setup_windows.bat
-.\scripts\run_windows.bat
+```text
+configs/                    # YAML từng task và smoke test
+data/manifests/dataset_v1.0/ # Manifest, ID và split chính thức; không có toàn văn/ảnh
+src/
+  common/                   # Dataset, batch, loss, metrics, checkpoint, logging
+  detection/                # Binary head và model detection
+  type_classification/      # Multilabel head, đúng 5 Type
+  consistency/              # TC/TI/IC, mỗi quan hệ 3 lớp
+scripts/                    # Validate dataset và smoke test offline
+experiments/                # Config đóng băng, run.json, events.jsonl; ngoài Git
+checkpoints/                # .pt theo run_id; ngoài Git
+results/                    # predictions.jsonl, metrics.json theo run_id; ngoài Git
+tests/research/             # Không cần dữ liệu thật
 ```
 
-Có thể mở nhanh bằng `CHAY_UNG_DUNG.bat`. Trên macOS/Linux: `sh scripts/setup_unix.sh`, sau đó `sh scripts/run_unix.sh`. Mở <http://127.0.0.1:8501>.
+`src/labeling`, `src/providers`, `src/ui` và các script annotation thuộc tool gán nhãn cũ; không là đầu vào của model nghiên cứu.
 
-1. **Kết nối AI**: nhập Gemini/OpenAI key và model hỗ trợ ảnh + structured output, lưu cấu hình. Lưu không gọi API. Có thể nhớ kết nối trên Windows bằng DPAPI.
-2. **Gán nhãn đa phương thức**: nhập đường dẫn CSV, thư mục gốc giải `image_path`, số bài và chế độ ngoại tuyến/API. Ví dụ `images/a_1.jpg` tương ứng gốc `clean_final`.
-3. Tải CSV kết quả, kiểm tra flags và bằng chứng. Mô phỏng không tạo nhãn train.
+## Framework và cài đặt
 
-CSV đầu vào cần `article_id`, `title`, `content`, `image_path`; các trường như `lead`, `image_caption` được dùng khi có. Giữ dữ liệu nguồn và ảnh bên ngoài Git. Đường dẫn mặc định trong giao diện trỏ đến `../data_pr/clean_final`; có thể thay bằng đường dẫn trên máy khác.
-
-## Nhãn và review
-
-- Detection: 0/1/Unknown.
-- Năm Type: curiosity_gap, exaggeration, emotional_bait, question_based, misleading_presentation; ba subtype misleading chỉ là metadata.
-- TC/TI/IC: Consistent, Inconsistent, Insufficient Evidence. Not Available mô tả thiếu modality, không phải lớp train.
-- `label_mask_json` xác định target có ít nhất hai phiếu hợp lệ đồng thuận. Chỉ dùng target có mask=true; Unknown không bị ép thành 0.
-- Lưu evidence, phản hồi từng lượt, model, usage, timestamp và checksum. Toàn bộ human review vẫn pending cho đến khi người xác nhận.
-
-Xem [hướng dẫn nhãn và phục hồi](docs/ANNOTATION.md). Các lượt mù dùng cùng model qua các yêu cầu riêng, có thể cùng sai; cần gold độc lập để đánh giá accuracy/F1. Mỗi bài dùng 2–3 phân tích, mỗi yêu cầu retry tạm thời tối đa hai lần, tôn trọng nhịp API đã cấu hình.
-
-## CLI pilot
-
-CLI giới hạn 1–10 bài mỗi lần để kiểm chứng có kiểm soát:
+Chốt **Python 3.12, PyTorch 2.6.0, NumPy, Pillow, YAML** cho core nghiên cứu. Encoder PhoBERT/XLM-R/CLIP/ViT do từng thành viên bổ sung; khóa model ID, revision và dependency trong config/requirements của thí nghiệm. Bộ khung chưa tải pretrained model hoặc chạy thí nghiệm chính thức.
 
 ```powershell
-.\.venv\Scripts\python.exe scripts/annotate.py --csv ..\data_pr\clean_final\sample_1000.csv --image-root ..\data_pr\clean_final --limit 10 --live --output data/output/pilot.csv
+git clone --branch feat/shared-research-scaffold https://github.com/nguyenquanganh102006-beep/clickbait-lens.git multimodal-clickbait-detection
+cd multimodal-clickbait-detection
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu
+python -m pip install -r requirements-research-dev.txt
+python -m pytest tests/research -q
+python scripts/smoke_research.py --synthetic
 ```
 
-Mặc định dùng kết nối mã hóa đã lưu. Thêm `--key-stdin --provider gemini --model gemini-3.1-flash-lite` để nhập key tạm qua ô ẩn trong terminal; không truyền key trong command line. Thêm `--resume` để tiếp tục; thêm `--retry-incomplete` để chạy lại riêng dòng review lỗi API. Cache phải khớp model/prompt/schema/input/ảnh/checksum. Không ghi đè CSV nguồn.
+macOS/Linux: `python3.12 -m venv .venv` và `source .venv/bin/activate`. Với GPU, cài wheel PyTorch cùng phiên bản phù hợp máy theo [hướng dẫn PyTorch](https://pytorch.org/get-started/locally/), rồi cài requirements; ghi CUDA/driver trong run metadata. Khác phần cứng có thể cho kết quả khác dù cùng seed.
 
-Kiểm tra kết quả đã lưu không gọi API:
+`requirements-research.txt` là core gọn. `requirements.txt` gồm cả core và labeler. `requirements-lock.txt` kế thừa khóa dependency của **labeler**, không phải lock của research. Các package nghiên cứu trực tiếp được pin; phiên bản thực tế mỗi run được ghi trong `run.json`.
+
+## Dataset dùng chung
+
+Dataset **v1.0**: **28.042** bài, **19.629 train / 4.206 validation / 4.207 test**, seed **20261124**, 27.729 leakage groups. **Không tự random split lại**. Mỗi bài, nhóm leakage và ảnh trùng byte chỉ nằm trong một tập.
+
+Lấy snapshot `dataset_v1.0` và ảnh qua kênh dữ liệu của nhóm. Git chỉ giữ manifest/checksum và ID split. Trên workspace KHDL, từ checkout tại `KHDL/github/multimodal-clickbait-detection`:
 
 ```powershell
-.\.venv\Scripts\python.exe scripts/validate_quality_pilot.py input.csv output.csv receipt.json
+python scripts/validate_research_dataset.py --dataset-root "../../data_pr/dataset_v1.0"
+python scripts/smoke_research.py --dataset-root "../../data_pr/dataset_v1.0"
 ```
 
-## Phát triển
+Máy khác truyền đường dẫn snapshot thực tế; không hardcode ổ C hoặc copy ảnh vào Git.
+
+```python
+from src.common.dataset import ClickbaitDataset, make_dataloader
+train = ClickbaitDataset("../../data_pr/dataset_v1.0", "train")
+loader = make_dataloader(train, batch_size=16, num_workers=0)
+```
+
+Batch giữ text/PIL image dạng list để mỗi model dùng tokenizer/transform riêng; targets/masks đã stack. Chỉ fit preprocessing trên train, augmentation chỉ trên train, chọn threshold/model bằng validation. Không đưa nguồn/người gán nhãn/model AI/ghi chú annotation vào feature mặc định. Chi tiết: [hợp đồng tích hợp](docs/RESEARCH_CONTRACTS.md).
+
+**Test chưa là human gold.** `ClickbaitDataset(..., "test")` mặc định từ chối nếu chưa cung cấp gold receipt. `allow_pseudo_test=True` chỉ để diagnostic. Hai người phải review độc lập và phân xử theo quy trình trong snapshot, rồi truyền `gold_csv`. Không random lại split sau khi biết nhãn gold. Manifest Git ghi trạng thái lúc phát hành; gold receipt là artifact riêng.
+
+## Phát triển độc lập
+
+- Detection trong `src/detection/`; Type trong `src/type_classification/`; Consistency trong `src/consistency/`.
+- Hạ tầng chung ở `src/common/`; đổi API/schema cần nêu tác động trong PR và thêm kiểm tra.
+- Model trả logits theo contract; dùng chung loss/metrics/exporter. Consistency độc lập với Detection/Type.
+- Mỗi experiment có config, run ID, Git SHA, dataset/split/schema fingerprint và provenance nhãn. Xem [format artifact](docs/RESEARCH_CONTRACTS.md).
+- Nhánh tích hợp hiện tại `feat/shared-research-scaffold`. Thành viên tạo `feat/<task>-<slug>` rồi PR về nhánh tích hợp. Xem [quy trình Git](CONTRIBUTING.md).
+
+## Kiểm tra nhanh
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest -q
-.\.venv\Scripts\python.exe scripts/package_release.py
+python -m pytest tests/research -q
+python scripts/smoke_research.py --config configs/detection.yaml --synthetic
+python scripts/smoke_research.py --config configs/type_classification.yaml --synthetic
+python scripts/smoke_research.py --config configs/consistency.yaml --synthetic
 ```
 
-Mã chính ở `src/labeling/quality.py`; tiện ích input/evidence ở `src/labeling/multimodal.py`; schema API ở `config/annotation_response.schema.json`; prompt ở `prompts/`. Gói phát hành loại trừ dataset, key và state cục bộ. [Danh mục dọn dẹp](docs/CLEANUP.json) ghi các file đã xóa khi chọn bản chính; lịch sử code cũ vẫn có trong Git.
+Smoke runner huấn luyện MLP nhỏ trên đặc trưng độ dài/ảnh trung bình hoặc fixture tổng hợp để thử loss, checkpoint, dự đoán và logging. **Không phải baseline nghiên cứu**; mọi kết quả mang `official_benchmark=false`. Không sử dụng test split. CI chạy research tests + smoke offline trên Windows/Linux. Thay đổi tool labeler cần chạy thêm tests cũ trong môi trường dependency labeler.

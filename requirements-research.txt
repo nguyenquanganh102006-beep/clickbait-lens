@@ -1,0 +1,5 @@
+# Research core, Python 3.12. Install matching CPU/CUDA torch wheel first.
+torch==2.6.0
+numpy==2.3.5
+Pillow==12.3.0
+PyYAML==6.0.3
