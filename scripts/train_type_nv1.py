@@ -198,7 +198,7 @@ def interpret(model, exp, cache):
         return None
     names = np.array(feats.names())
     out = {}
-    if hasattr(clf, "coefficients"):
+    if getattr(clf, "base", None) == "lr":  # calibrated SVM has no single coef_ vector
         W = clf.coefficients()
         for k, t in enumerate(TYPES):
             order = np.argsort(W[k])
