@@ -11,6 +11,20 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 SEED = 20261124
+N_JOBS = int(__import__("os").environ.get("NV1_JOBS", "5"))  # parallel label/chain fits
+
+
+def _fit(model, X, y):
+    return model.fit(X, y)
+
+
+def _parallel_fit(models, X, ys):
+    """Fit independent models on all cores (results identical to a sequential loop)."""
+    from joblib import Parallel, delayed
+
+    return Parallel(n_jobs=N_JOBS)(delayed(_fit)(m, X, y) for m, y in zip(models, ys))
+
+
 CONTENT_CHARS = 2000  # lead region of the body; whole articles (median ~655 words) add noise
 
 
@@ -161,7 +175,10 @@ class BinaryRelevance:
         raise ValueError(self.base)
 
     def fit(self, X, Y):
-        self.models = [self._make().fit(X, Y[:, k]) for k in range(Y.shape[1])]
+        k = Y.shape[1]
+        self.models = _parallel_fit(
+            [self._make() for _ in range(k)], X, [Y[:, j] for j in range(k)]
+        )
         return self
 
     def predict_proba(self, X):
@@ -182,10 +199,11 @@ class EnsembleChains:
     def fit(self, X, Y):
         from sklearn.multioutput import ClassifierChain
 
-        self.chains = [
-            ClassifierChain(_lr(self.C), order="random", random_state=SEED + i).fit(X, Y)
+        chains = [
+            ClassifierChain(_lr(self.C), order="random", random_state=SEED + i)
             for i in range(self.n_chains)
         ]
+        self.chains = _parallel_fit(chains, X, [Y] * self.n_chains)
         return self
 
     def predict_proba(self, X):

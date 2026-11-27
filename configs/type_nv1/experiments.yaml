@@ -31,12 +31,12 @@ experiments:
     id: T1.1
     blocks: [tfidf_title]
     classifier: br_lr
-    grid: {C: [0.25, 0.5, 1.0, 2.0, 4.0]}
+    grid: {C: [0.5, 1.0, 2.0]}
   t1_1_tfidf_title_content_br:
     id: T1.1
     blocks: [tfidf_title, tfidf_content]
     classifier: br_lr
-    grid: {C: [0.25, 0.5, 1.0, 2.0, 4.0]}
+    grid: {C: [0.5, 1.0, 2.0]}
   t1_2_tfidf_chains:
     id: T1.2
     blocks: [tfidf_title, tfidf_content]
