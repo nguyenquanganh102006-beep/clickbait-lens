@@ -1,0 +1,85 @@
+# NV1 - Multi-label Machine Learning for Clickbait Type (5 independent labels).
+# Every experiment: 5-fold GroupKFold on train (leakage groups) -> grid point with best OOF
+# macro AUPRC -> thresholds fit on OOF -> refit on train -> validation scored once.
+format_version: '1.0'
+run_mode: research
+task: type_classification
+seed: 20261124
+data:
+  dataset_version: '1.0'
+  inputs: title + content head (2000 chars) + lead; image not used
+cv:
+  folds: 5
+  group_column: leakage_group_id
+  selection_metric: oof_macro_auprc
+threshold:
+  modes: [fixed, global, per_label]
+  export: per_label
+  fit_on: train_oof
+experiments:
+  t1_0_prior:
+    id: T1.0
+    blocks: [hand]
+    classifier: prior
+  t1_0_source_only:
+    id: T1.0-diag
+    diagnostic: true   # how much of the labels is explained by the outlet alone (style confound)
+    blocks: [source]
+    classifier: br_lr
+    grid: {C: [1.0]}
+  t1_1_tfidf_title_br:
+    id: T1.1
+    blocks: [tfidf_title]
+    classifier: br_lr
+    grid: {C: [0.25, 0.5, 1.0, 2.0, 4.0]}
+  t1_1_tfidf_title_content_br:
+    id: T1.1
+    blocks: [tfidf_title, tfidf_content]
+    classifier: br_lr
+    grid: {C: [0.25, 0.5, 1.0, 2.0, 4.0]}
+  t1_2_tfidf_chains:
+    id: T1.2
+    blocks: [tfidf_title, tfidf_content]
+    classifier: ecc_lr
+    grid: {C: [0.5, 1.0, 2.0], n_chains: [5]}
+  t1_2_tfidf_label_powerset:
+    id: T1.2
+    blocks: [tfidf_title, tfidf_content]
+    classifier: lp_lr
+    grid: {C: [1.0, 4.0]}
+  t1_2_tfidf_ovr_svm:
+    id: T1.2
+    blocks: [tfidf_title, tfidf_content]
+    classifier: br_svm
+    grid: {C: [0.02, 0.05, 0.1, 0.2]}
+  t1_3_hand_lr:
+    id: T1.3
+    blocks: [hand]
+    classifier: br_lr
+    grid: {C: [0.01, 0.1, 1.0]}
+  t1_3_hand_catboost:
+    id: T1.3
+    blocks: [hand]
+    classifier: ovr_catboost
+    grid: {depth: [4, 6], iterations: [600]}
+  t1_4_semantic_lr:
+    id: T1.4
+    blocks: [sem]
+    classifier: br_lr
+    grid: {C: [0.05, 0.1, 0.25, 0.5, 1.0]}
+  t1_4_semantic_hand_catboost:
+    id: T1.4
+    blocks: [sem, hand]
+    classifier: ovr_catboost
+    grid: {depth: [6], iterations: [800]}
+  t1_5_combined_lr:
+    id: T1.5
+    blocks: [tfidf_title, tfidf_content, hand, sem]
+    classifier: br_lr
+    grid: {C: [0.25, 0.5, 1.0, 2.0]}
+  t1_5_stacking:
+    id: T1.5
+    # level-2: per-label LR on all base models' logits of all labels (label dependency)
+    stack: [t1_1_tfidf_title_content_br, t1_2_tfidf_chains, t1_3_hand_catboost,
+            t1_4_semantic_lr, t1_5_combined_lr]
+    meta: {C: 1.0}
