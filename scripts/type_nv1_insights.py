@@ -326,7 +326,7 @@ def figures(ins, fig_dir):
         ax.text(
             max(a, b) + 0.01,
             i,
-            f"−{a - b:.3f}".replace(".", ","),
+            f"{b - a:+.3f}".replace(".", ",").replace("-", "−"),
             va="center",
             fontsize=8,
             color=INK,
@@ -345,10 +345,16 @@ def figures(ins, fig_dir):
     lc = ins["learning_curve"]
     fig, ax = plt.subplots(figsize=(8, 4.2))
     x = [p["n_train"] for p in lc]
+    ends = {}
     for k, (t, s) in enumerate(zip(TYPES, SHORT)):
         y = [p["per_label_auprc"][t] for p in lc]
         ax.plot(x, y, "-o", color=CAT[k], lw=1.5, ms=4)
-        ax.text(x[-1] * 1.02, y[-1], s, va="center", fontsize=8, color=INK)
+        ends[s] = y[-1]
+    placed = []  # spread end labels so close curves do not overlap (min gap 0.022)
+    for s, v in sorted(ends.items(), key=lambda kv: kv[1]):
+        v = max(v, placed[-1] + 0.022) if placed else v
+        placed.append(v)
+        ax.text(x[-1] * 1.02, v, s, va="center", fontsize=8, color=INK)
     ax.plot(x, [p["macro_auprc"] for p in lc], "-o", color=INK, lw=2.5, ms=5)
     ax.text(x[-1] * 1.02, lc[-1]["macro_auprc"], "Macro", va="center", fontsize=9, color=INK)
     ax.set_xlabel("Số bài train (lấy mẫu theo nhóm leakage)")

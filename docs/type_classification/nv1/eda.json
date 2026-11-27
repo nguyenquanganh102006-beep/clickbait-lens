@@ -1,0 +1,2921 @@
+{
+ "split": "train",
+ "labels": {
+  "n": 19629,
+  "prevalence": {
+   "curiosity_gap": 0.2046,
+   "exaggeration": 0.1788,
+   "emotional_bait": 0.122,
+   "question_based": 0.0562,
+   "misleading_presentation": 0.047
+  },
+  "label_cardinality": 0.6086402771409649,
+  "label_density": 0.12172805542819298,
+  "distinct_combinations": 31,
+  "top_combinations": [
+   [
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    12001
+   ],
+   [
+    [
+     1,
+     0,
+     0,
+     0,
+     0
+    ],
+    1487
+   ],
+   [
+    [
+     0,
+     1,
+     0,
+     0,
+     0
+    ],
+    1386
+   ],
+   [
+    [
+     1,
+     1,
+     0,
+     0,
+     0
+    ],
+    717
+   ],
+   [
+    [
+     0,
+     0,
+     1,
+     0,
+     0
+    ],
+    672
+   ],
+   [
+    [
+     1,
+     0,
+     1,
+     0,
+     0
+    ],
+    648
+   ],
+   [
+    [
+     0,
+     0,
+     0,
+     1,
+     0
+    ],
+    511
+   ],
+   [
+    [
+     0,
+     1,
+     1,
+     0,
+     0
+    ],
+    387
+   ],
+   [
+    [
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    374
+   ],
+   [
+    [
+     1,
+     0,
+     0,
+     1,
+     0
+    ],
+    312
+   ]
+  ],
+  "cooccurrence": [
+   [
+    4016,
+    1362,
+    1212,
+    473,
+    357
+   ],
+   [
+    1362,
+    3510,
+    936,
+    170,
+    496
+   ],
+   [
+    1212,
+    936,
+    2395,
+    104,
+    222
+   ],
+   [
+    473,
+    170,
+    104,
+    1103,
+    69
+   ],
+   [
+    357,
+    496,
+    222,
+    69,
+    923
+   ]
+  ],
+  "conditional_p_j_given_i": [
+   [
+    1.0,
+    0.3391,
+    0.3018,
+    0.1178,
+    0.0889
+   ],
+   [
+    0.388,
+    1.0,
+    0.2667,
+    0.0484,
+    0.1413
+   ],
+   [
+    0.5061,
+    0.3908,
+    1.0,
+    0.0434,
+    0.0927
+   ],
+   [
+    0.4288,
+    0.1541,
+    0.0943,
+    1.0,
+    0.0626
+   ],
+   [
+    0.3868,
+    0.5374,
+    0.2405,
+    0.0748,
+    1.0
+   ]
+  ],
+  "lift": [
+   [
+    4.888,
+    1.897,
+    2.473,
+    2.096,
+    1.89
+   ],
+   [
+    1.897,
+    5.592,
+    2.186,
+    0.862,
+    3.005
+   ],
+   [
+    2.473,
+    2.186,
+    8.196,
+    0.773,
+    1.971
+   ],
+   [
+    2.096,
+    0.862,
+    0.773,
+    17.796,
+    1.33
+   ],
+   [
+    1.89,
+    3.005,
+    1.971,
+    1.33,
+    21.267
+   ]
+  ]
+ },
+ "feature_tests": [
+  {
+   "label": "curiosity_gap",
+   "feature": "t_chars",
+   "mean_pos": 87.42106628417969,
+   "mean_neg": 72.1651840209961,
+   "rank_biserial": 0.36192524433135986,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_words",
+   "mean_pos": 19.9559268951416,
+   "mean_neg": 16.35150146484375,
+   "rank_biserial": 0.37471282482147217,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_avg_word_len",
+   "mean_pos": 3.344550609588623,
+   "mean_neg": 3.410360813140869,
+   "rank_biserial": -0.11262810230255127,
+   "p": 2.856877053479145e-28,
+   "q_bh": 8.26990726007121e-28
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_has_number",
+   "mean_pos": 0.47036853432655334,
+   "mean_neg": 0.43662333488464355,
+   "rank_biserial": 0.03374528884887695,
+   "p": 0.00012357182276900858,
+   "q_bh": 0.0001727911081092069
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_n_numbers",
+   "mean_pos": 0.6568725109100342,
+   "mean_neg": 0.6320374011993408,
+   "rank_biserial": 0.029073715209960938,
+   "p": 0.0014456440694630146,
+   "q_bh": 0.0019082501716911793
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_starts_number",
+   "mean_pos": 0.057021912187337875,
+   "mean_neg": 0.052328187972307205,
+   "rank_biserial": 0.004693746566772461,
+   "p": 0.23758213222026825,
+   "q_bh": 0.2579016566864754
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_question_mark",
+   "mean_pos": 0.13346613943576813,
+   "mean_neg": 0.07493755221366882,
+   "rank_biserial": 0.058614492416381836,
+   "p": 3.367090132725588e-32,
+   "q_bh": 1.0288330961105964e-31
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_ends_question",
+   "mean_pos": 0.11827689409255981,
+   "mean_neg": 0.06840453296899796,
+   "rank_biserial": 0.049872398376464844,
+   "p": 1.1457307319055508e-25,
+   "q_bh": 3.1507595127402646e-25
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_exclaim",
+   "mean_pos": 0.05054780840873718,
+   "mean_neg": 0.021072182804346085,
+   "rank_biserial": 0.029782891273498535,
+   "p": 2.150551677654064e-25,
+   "q_bh": 5.817066013326567e-25
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_ellipsis",
+   "mean_pos": 0.010209163650870323,
+   "mean_neg": 0.005508230533450842,
+   "rank_biserial": 0.004701018333435059,
+   "p": 0.000920446589589119,
+   "q_bh": 0.0012247878006629406
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_ends_ellipsis",
+   "mean_pos": 0.0022410359233617783,
+   "mean_neg": 0.0009607378742657602,
+   "rank_biserial": 0.0012801885604858398,
+   "p": 0.038409460335969925,
+   "q_bh": 0.04494724081868821
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_quotes",
+   "mean_pos": 0.7253485918045044,
+   "mean_neg": 0.47454044222831726,
+   "rank_biserial": 0.11161017417907715,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_colon",
+   "mean_pos": 0.25498008728027344,
+   "mean_neg": 0.22205853462219238,
+   "rank_biserial": 0.03276991844177246,
+   "p": 1.0202502380707301e-05,
+   "q_bh": 1.5030472257292007e-05
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_dash",
+   "mean_pos": 0.03560756891965866,
+   "mean_neg": 0.0379171185195446,
+   "rank_biserial": -0.002316772937774658,
+   "p": 0.47742709517478943,
+   "q_bh": 0.4985789285053181
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_comma",
+   "mean_pos": 0.7659362554550171,
+   "mean_neg": 0.5074617266654968,
+   "rank_biserial": 0.20301151275634766,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_upper_ratio",
+   "mean_pos": 0.05222742259502411,
+   "mean_neg": 0.06980803608894348,
+   "rank_biserial": -0.23360878229141235,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "t_allcaps_words",
+   "mean_pos": 0.1745517998933792,
+   "mean_neg": 0.21911227703094482,
+   "rank_biserial": -0.038127124309539795,
+   "p": 8.515367078132385e-09,
+   "q_bh": 1.4484902761771584e-08
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "lex_curiosity",
+   "mean_pos": 0.4723605513572693,
+   "mean_neg": 0.12220585346221924,
+   "rank_biserial": 0.26980769634246826,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "lex_exaggeration",
+   "mean_pos": 0.22285856306552887,
+   "mean_neg": 0.16095560789108276,
+   "rank_biserial": 0.04947495460510254,
+   "p": 1.0441824068265805e-14,
+   "q_bh": 2.1270382361282197e-14
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "lex_emotional",
+   "mean_pos": 0.12076693028211594,
+   "mean_neg": 0.07141484320163727,
+   "rank_biserial": 0.04619705677032471,
+   "p": 5.890793566188939e-23,
+   "q_bh": 1.429383732972316e-22
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "lex_question",
+   "mean_pos": 0.21140438318252563,
+   "mean_neg": 0.11599308252334595,
+   "rank_biserial": 0.08922898769378662,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "lex_address",
+   "mean_pos": 0.10084661096334457,
+   "mean_neg": 0.05937359854578972,
+   "rank_biserial": 0.03746652603149414,
+   "p": 2.0263809493132574e-18,
+   "q_bh": 4.709195163897006e-18
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "c_log_words",
+   "mean_pos": 6.534852504730225,
+   "mean_neg": 6.436718463897705,
+   "rank_biserial": 0.10273540019989014,
+   "p": 8.571936145530663e-24,
+   "q_bh": 2.1109992000187454e-23
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "c_lead_words",
+   "mean_pos": 27.97808837890625,
+   "mean_neg": 35.603214263916016,
+   "rank_biserial": -0.32454782724380493,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "c_emotional_per_1k",
+   "mean_pos": 1.9820208549499512,
+   "mean_neg": 1.3517115116119385,
+   "rank_biserial": 0.14395272731781006,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "c_exaggeration_per_1k",
+   "mean_pos": 6.474123954772949,
+   "mean_neg": 5.858008861541748,
+   "rank_biserial": 0.08453333377838135,
+   "p": 6.046320362592699e-17,
+   "q_bh": 1.348166026794318e-16
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "c_question_marks",
+   "mean_pos": 0.7821215391159058,
+   "mean_neg": 0.38833025097846985,
+   "rank_biserial": 0.1732550859451294,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "tc_title_in_head",
+   "mean_pos": 0.7356688380241394,
+   "mean_neg": 0.7969095706939697,
+   "rank_biserial": -0.23511332273483276,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "tc_title_in_body",
+   "mean_pos": 0.823742151260376,
+   "mean_neg": 0.8634201884269714,
+   "rank_biserial": -0.19605523347854614,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "tc_title_in_lead",
+   "mean_pos": 0.3245542645454407,
+   "mean_neg": 0.4975815713405609,
+   "rank_biserial": -0.3789677023887634,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "tc_numbers_missing",
+   "mean_pos": 0.10209163278341293,
+   "mean_neg": 0.07884455472230911,
+   "rank_biserial": 0.02478194236755371,
+   "p": 1.1066021698979966e-07,
+   "q_bh": 1.7389462669825662e-07
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "tc_numbers_missing_ratio",
+   "mean_pos": 0.07785109430551529,
+   "mean_neg": 0.05548261106014252,
+   "rank_biserial": 0.025331616401672363,
+   "p": 5.853107509778965e-08,
+   "q_bh": 9.468262148171856e-08
+  },
+  {
+   "label": "curiosity_gap",
+   "feature": "tc_title_lead_len_ratio",
+   "mean_pos": 0.8608315587043762,
+   "mean_neg": 0.5586994290351868,
+   "rank_biserial": 0.4520740509033203,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_chars",
+   "mean_pos": 90.0732192993164,
+   "mean_neg": 72.06656646728516,
+   "rank_biserial": 0.42168331146240234,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_words",
+   "mean_pos": 20.44330406188965,
+   "mean_neg": 16.3585205078125,
+   "rank_biserial": 0.42109251022338867,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_avg_word_len",
+   "mean_pos": 3.3571341037750244,
+   "mean_neg": 3.405555009841919,
+   "rank_biserial": -0.077495276927948,
+   "p": 5.732055455287544e-13,
+   "q_bh": 1.1126931177911114e-12
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_has_number",
+   "mean_pos": 0.5757834911346436,
+   "mean_neg": 0.41472795605659485,
+   "rank_biserial": 0.1610555648803711,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_n_numbers",
+   "mean_pos": 0.8524216413497925,
+   "mean_neg": 0.5902351140975952,
+   "rank_biserial": 0.17177283763885498,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_starts_number",
+   "mean_pos": 0.10284899920225143,
+   "mean_neg": 0.04249643161892891,
+   "rank_biserial": 0.06035268306732178,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_question_mark",
+   "mean_pos": 0.06495726853609085,
+   "mean_neg": 0.09169303625822067,
+   "rank_biserial": -0.026066243648529053,
+   "p": 6.039829827386711e-07,
+   "q_bh": 9.142861665310159e-07
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_ends_question",
+   "mean_pos": 0.0535612553358078,
+   "mean_neg": 0.08406228572130203,
+   "rank_biserial": -0.030500948429107666,
+   "p": 1.169143115653526e-09,
+   "q_bh": 2.074286172933675e-09
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_exclaim",
+   "mean_pos": 0.06210826337337494,
+   "mean_neg": 0.019480116665363312,
+   "rank_biserial": 0.042247891426086426,
+   "p": 1.1210387714598537e-44,
+   "q_bh": 3.774926475323997e-44
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_ellipsis",
+   "mean_pos": 0.009116808883845806,
+   "mean_neg": 0.005893665831536055,
+   "rank_biserial": 0.0032231807708740234,
+   "p": 0.030908707529306412,
+   "q_bh": 0.03695606335025767
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_ends_ellipsis",
+   "mean_pos": 0.0011396011104807258,
+   "mean_neg": 0.0012407717294991016,
+   "rank_biserial": -0.00010126829147338867,
+   "p": 0.8764209151268005,
+   "q_bh": 0.8871745459872521
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_quotes",
+   "mean_pos": 0.853561282157898,
+   "mean_neg": 0.4544946849346161,
+   "rank_biserial": 0.17660963535308838,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_colon",
+   "mean_pos": 0.32279202342033386,
+   "mean_neg": 0.2083255797624588,
+   "rank_biserial": 0.11443555355072021,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_dash",
+   "mean_pos": 0.036467235535383224,
+   "mean_neg": 0.037657421082258224,
+   "rank_biserial": -0.00022113323211669922,
+   "p": 0.9486399292945862,
+   "q_bh": 0.9486399292945862
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_comma",
+   "mean_pos": 0.8566951751708984,
+   "mean_neg": 0.49581238627433777,
+   "rank_biserial": 0.2670574188232422,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_upper_ratio",
+   "mean_pos": 0.04833865538239479,
+   "mean_neg": 0.07010295242071152,
+   "rank_biserial": -0.2792070508003235,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "t_allcaps_words",
+   "mean_pos": 0.17150996625423431,
+   "mean_neg": 0.21837583184242249,
+   "rank_biserial": -0.042219460010528564,
+   "p": 1.3904800644226611e-09,
+   "q_bh": 2.4407362832950967e-09
+  },
+  {
+   "label": "exaggeration",
+   "feature": "lex_curiosity",
+   "mean_pos": 0.33789172768592834,
+   "mean_neg": 0.16247905790805817,
+   "rank_biserial": 0.14529836177825928,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "lex_exaggeration",
+   "mean_pos": 0.32792022824287415,
+   "mean_neg": 0.14002108573913574,
+   "rank_biserial": 0.15005040168762207,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "lex_emotional",
+   "mean_pos": 0.10968661308288574,
+   "mean_neg": 0.07537688314914703,
+   "rank_biserial": 0.0306243896484375,
+   "p": 5.226573618344332e-10,
+   "q_bh": 9.47675436293203e-10
+  },
+  {
+   "label": "exaggeration",
+   "feature": "lex_question",
+   "mean_pos": 0.1646723598241806,
+   "mean_neg": 0.12916433811187744,
+   "rank_biserial": 0.03269529342651367,
+   "p": 1.3753886207723554e-07,
+   "q_bh": 2.1012881706244318e-07
+  },
+  {
+   "label": "exaggeration",
+   "feature": "lex_address",
+   "mean_pos": 0.09515669196844101,
+   "mean_neg": 0.061914511024951935,
+   "rank_biserial": 0.02892911434173584,
+   "p": 1.3447820634837626e-10,
+   "q_bh": 2.521466369032055e-10
+  },
+  {
+   "label": "exaggeration",
+   "feature": "c_log_words",
+   "mean_pos": 6.584668159484863,
+   "mean_neg": 6.428951263427734,
+   "rank_biserial": 0.17419755458831787,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "c_lead_words",
+   "mean_pos": 29.023361206054688,
+   "mean_neg": 35.13623809814453,
+   "rank_biserial": -0.26776689291000366,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "c_emotional_per_1k",
+   "mean_pos": 1.648664116859436,
+   "mean_neg": 1.4440882205963135,
+   "rank_biserial": 0.06329703330993652,
+   "p": 1.4038840619526316e-13,
+   "q_bh": 2.757629407406955e-13
+  },
+  {
+   "label": "exaggeration",
+   "feature": "c_exaggeration_per_1k",
+   "mean_pos": 7.213376998901367,
+   "mean_neg": 5.716372966766357,
+   "rank_biserial": 0.1686004400253296,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "c_question_marks",
+   "mean_pos": 0.5797720551490784,
+   "mean_neg": 0.44475463032722473,
+   "rank_biserial": 0.0897376537322998,
+   "p": 3.9309960492627894e-31,
+   "q_bh": 1.1792988147788368e-30
+  },
+  {
+   "label": "exaggeration",
+   "feature": "tc_title_in_head",
+   "mean_pos": 0.7217960357666016,
+   "mean_neg": 0.7980079054832458,
+   "rank_biserial": -0.2918579578399658,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "tc_title_in_body",
+   "mean_pos": 0.8124404549598694,
+   "mean_neg": 0.8646355867385864,
+   "rank_biserial": -0.25795185565948486,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "tc_title_in_lead",
+   "mean_pos": 0.3219718337059021,
+   "mean_neg": 0.4927123188972473,
+   "rank_biserial": -0.37328439950942993,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "exaggeration",
+   "feature": "tc_numbers_missing",
+   "mean_pos": 0.1310541331768036,
+   "mean_neg": 0.07326757162809372,
+   "rank_biserial": 0.05206942558288574,
+   "p": 3.156757567329306e-26,
+   "q_bh": 8.980431010505784e-26
+  },
+  {
+   "label": "exaggeration",
+   "feature": "tc_numbers_missing_ratio",
+   "mean_pos": 0.09217473864555359,
+   "mean_neg": 0.053065743297338486,
+   "rank_biserial": 0.051644086837768555,
+   "p": 8.398073297431731e-26,
+   "q_bh": 2.348613718773281e-25
+  },
+  {
+   "label": "exaggeration",
+   "feature": "tc_title_lead_len_ratio",
+   "mean_pos": 0.8575999140739441,
+   "mean_neg": 0.5688874125480652,
+   "rank_biserial": 0.4377955198287964,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_chars",
+   "mean_pos": 90.22003936767578,
+   "mean_neg": 73.21115112304688,
+   "rank_biserial": 0.4040595293045044,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_words",
+   "mean_pos": 20.647598266601562,
+   "mean_neg": 16.594406127929688,
+   "rank_biserial": 0.4218168258666992,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_avg_word_len",
+   "mean_pos": 3.33083176612854,
+   "mean_neg": 3.4060773849487305,
+   "rank_biserial": -0.12870842218399048,
+   "p": 1.5591082429528812e-24,
+   "q_bh": 3.987918635476461e-24
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_has_number",
+   "mean_pos": 0.4943632483482361,
+   "mean_neg": 0.4364628195762634,
+   "rank_biserial": 0.057900428771972656,
+   "p": 9.080379470560729e-08,
+   "q_bh": 1.440637127540885e-07
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_n_numbers",
+   "mean_pos": 0.6605427861213684,
+   "mean_neg": 0.6338632702827454,
+   "rank_biserial": 0.04575204849243164,
+   "p": 4.76174900541082e-05,
+   "q_bh": 6.773177464592976e-05
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_starts_number",
+   "mean_pos": 0.05052192136645317,
+   "mean_neg": 0.053672973066568375,
+   "rank_biserial": -0.003151118755340576,
+   "p": 0.5200210809707642,
+   "q_bh": 0.5396445179885289
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_question_mark",
+   "mean_pos": 0.05386221408843994,
+   "mean_neg": 0.09150516241788864,
+   "rank_biserial": -0.03670966625213623,
+   "p": 1.9449408750205066e-09,
+   "q_bh": 3.378055203982985e-09
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_ends_question",
+   "mean_pos": 0.045929018408060074,
+   "mean_neg": 0.08314958959817886,
+   "rank_biserial": -0.03722059726715088,
+   "p": 2.2709570335344154e-10,
+   "q_bh": 4.1634212281464283e-10
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_exclaim",
+   "mean_pos": 0.05135699361562729,
+   "mean_neg": 0.023732157424092293,
+   "rank_biserial": 0.027902960777282715,
+   "p": 2.4589417280769174e-15,
+   "q_bh": 5.1357643687682454e-15
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_ellipsis",
+   "mean_pos": 0.008768266998231411,
+   "mean_neg": 0.006150632631033659,
+   "rank_biserial": 0.0026175975799560547,
+   "p": 0.1343705654144287,
+   "q_bh": 0.14980502225257256
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_ends_ellipsis",
+   "mean_pos": 0.0025052193086594343,
+   "mean_neg": 0.0010444470681250095,
+   "rank_biserial": 0.0014606714248657227,
+   "p": 0.05527585744857788,
+   "q_bh": 0.06290011364838173
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_quotes",
+   "mean_pos": 0.7628392577171326,
+   "mean_neg": 0.49292096495628357,
+   "rank_biserial": 0.1158214807510376,
+   "p": 3.118198507760261e-35,
+   "q_bh": 9.70759912793289e-35
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_colon",
+   "mean_pos": 0.2964509427547455,
+   "mean_neg": 0.21939189732074738,
+   "rank_biserial": 0.07608187198638916,
+   "p": 9.374884559594241e-17,
+   "q_bh": 2.062474603110733e-16
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_dash",
+   "mean_pos": 0.02129436284303665,
+   "mean_neg": 0.03968898579478264,
+   "rank_biserial": -0.01634889841079712,
+   "p": 4.747665298054926e-05,
+   "q_bh": 6.773177464592976e-05
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_comma",
+   "mean_pos": 0.8292275667190552,
+   "mean_neg": 0.5229778289794922,
+   "rank_biserial": 0.24533188343048096,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_upper_ratio",
+   "mean_pos": 0.04368402063846588,
+   "mean_neg": 0.06934170424938202,
+   "rank_biserial": -0.35106009244918823,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "t_allcaps_words",
+   "mean_pos": 0.14530271291732788,
+   "mean_neg": 0.21898572146892548,
+   "rank_biserial": -0.06498521566390991,
+   "p": 1.6852925389991774e-15,
+   "q_bh": 3.565041909421337e-15
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "lex_curiosity",
+   "mean_pos": 0.3732776641845703,
+   "mean_neg": 0.16891029477119446,
+   "rank_biserial": 0.1556839942932129,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "lex_exaggeration",
+   "mean_pos": 0.1837160736322403,
+   "mean_neg": 0.1722177118062973,
+   "rank_biserial": 0.010052204132080078,
+   "p": 0.2023506462574005,
+   "q_bh": 0.22407957471457104
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "lex_emotional",
+   "mean_pos": 0.29603341221809387,
+   "mean_neg": 0.05170012637972832,
+   "rank_biserial": 0.21338653564453125,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "lex_question",
+   "mean_pos": 0.14237995445728302,
+   "mean_neg": 0.13455958664417267,
+   "rank_biserial": 0.006193757057189941,
+   "p": 0.3939506411552429,
+   "q_bh": 0.4166785627603531
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "lex_address",
+   "mean_pos": 0.10647181421518326,
+   "mean_neg": 0.062492746859788895,
+   "rank_biserial": 0.04246258735656738,
+   "p": 8.192746187815928e-16,
+   "q_bh": 1.7786883170916162e-15
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "c_log_words",
+   "mean_pos": 6.53118371963501,
+   "mean_neg": 6.44645881652832,
+   "rank_biserial": 0.0964888334274292,
+   "p": 1.810209019357037e-14,
+   "q_bh": 3.598608291492905e-14
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "c_lead_words",
+   "mean_pos": 28.854698181152344,
+   "mean_neg": 34.76418685913086,
+   "rank_biserial": -0.2462736964225769,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "c_emotional_per_1k",
+   "mean_pos": 3.370168447494507,
+   "mean_neg": 1.218087077140808,
+   "rank_biserial": 0.3272653818130493,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "c_exaggeration_per_1k",
+   "mean_pos": 6.044003009796143,
+   "mean_neg": 5.975733280181885,
+   "rank_biserial": 0.029063820838928223,
+   "p": 0.0196349136531353,
+   "q_bh": 0.023998227798276477
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "c_question_marks",
+   "mean_pos": 0.8279749751091003,
+   "mean_neg": 0.41899731755256653,
+   "rank_biserial": 0.16892743110656738,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "tc_title_in_head",
+   "mean_pos": 0.7368696331977844,
+   "mean_neg": 0.7909825444221497,
+   "rank_biserial": -0.20358282327651978,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "tc_title_in_body",
+   "mean_pos": 0.8350129127502441,
+   "mean_neg": 0.8581218123435974,
+   "rank_biserial": -0.1300433874130249,
+   "p": 2.5816257053882175e-25,
+   "q_bh": 6.8704555062750945e-25
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "tc_title_in_lead",
+   "mean_pos": 0.3133962154388428,
+   "mean_neg": 0.4828575849533081,
+   "rank_biserial": -0.3780496120452881,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "tc_numbers_missing",
+   "mean_pos": 0.09979122877120972,
+   "mean_neg": 0.08135081827640533,
+   "rank_biserial": 0.020178675651550293,
+   "p": 0.00045343858073465526,
+   "q_bh": 0.0006082712668391717
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "tc_numbers_missing_ratio",
+   "mean_pos": 0.07769659161567688,
+   "mean_neg": 0.057608023285865784,
+   "rank_biserial": 0.020889997482299805,
+   "p": 0.00028495461447164416,
+   "q_bh": 0.0003885744742795148
+  },
+  {
+   "label": "emotional_bait",
+   "feature": "tc_title_lead_len_ratio",
+   "mean_pos": 0.8661236763000488,
+   "mean_neg": 0.5863819718360901,
+   "rank_biserial": 0.4218099117279053,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "question_based",
+   "feature": "t_chars",
+   "mean_pos": 76.63191223144531,
+   "mean_neg": 75.20635986328125,
+   "rank_biserial": 0.03547561168670654,
+   "p": 0.0474083311855793,
+   "q_bh": 0.054322046150142946
+  },
+  {
+   "label": "question_based",
+   "feature": "t_words",
+   "mean_pos": 17.34723472595215,
+   "mean_neg": 17.073572158813477,
+   "rank_biserial": 0.02965223789215088,
+   "p": 0.09700068086385727,
+   "q_bh": 0.10962405714066062
+  },
+  {
+   "label": "question_based",
+   "feature": "t_avg_word_len",
+   "mean_pos": 3.346292734146118,
+   "mean_neg": 3.399909496307373,
+   "rank_biserial": -0.0868605375289917,
+   "p": 1.207208924824954e-06,
+   "q_bh": 1.810813387237431e-06
+  },
+  {
+   "label": "question_based",
+   "feature": "t_has_number",
+   "mean_pos": 0.3272892236709595,
+   "mean_neg": 0.45044800639152527,
+   "rank_biserial": -0.12315887212753296,
+   "p": 1.2607198152868012e-15,
+   "q_bh": 2.7015424613288595e-15
+  },
+  {
+   "label": "question_based",
+   "feature": "t_n_numbers",
+   "mean_pos": 0.4605621099472046,
+   "mean_neg": 0.6476303339004517,
+   "rank_biserial": -0.12544697523117065,
+   "p": 4.288508330190736e-15,
+   "q_bh": 8.845048431018393e-15
+  },
+  {
+   "label": "question_based",
+   "feature": "t_starts_number",
+   "mean_pos": 0.015412511304020882,
+   "mean_neg": 0.05554356053471565,
+   "rank_biserial": -0.0401310920715332,
+   "p": 8.182452937433027e-09,
+   "q_bh": 1.4063590986213015e-08
+  },
+  {
+   "label": "question_based",
+   "feature": "t_question_mark",
+   "mean_pos": 0.8766999244689941,
+   "mean_neg": 0.03988988324999809,
+   "rank_biserial": 0.8290292024612427,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "question_based",
+   "feature": "t_ends_question",
+   "mean_pos": 0.8059836626052856,
+   "mean_neg": 0.03530173748731613,
+   "rank_biserial": 0.7706820964813232,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "question_based",
+   "feature": "t_exclaim",
+   "mean_pos": 0.02266545780003071,
+   "mean_neg": 0.027366943657398224,
+   "rank_biserial": -0.00537109375,
+   "p": 0.28368088603019714,
+   "q_bh": 0.30593036728746753
+  },
+  {
+   "label": "question_based",
+   "feature": "t_ellipsis",
+   "mean_pos": 0.0036264732480049133,
+   "mean_neg": 0.006639317609369755,
+   "rank_biserial": -0.0030128955841064453,
+   "p": 0.22535325586795807,
+   "q_bh": 0.24788858145475387
+  },
+  {
+   "label": "question_based",
+   "feature": "t_ends_ellipsis",
+   "mean_pos": 0.0,
+   "mean_neg": 0.0012954765697941184,
+   "rank_biserial": -0.0012954473495483398,
+   "p": 0.2316875457763672,
+   "q_bh": 0.25316851028543436
+  },
+  {
+   "label": "question_based",
+   "feature": "t_quotes",
+   "mean_pos": 0.5865820646286011,
+   "mean_neg": 0.5222390294075012,
+   "rank_biserial": 0.02743983268737793,
+   "p": 0.038954880088567734,
+   "q_bh": 0.04526447334234983
+  },
+  {
+   "label": "question_based",
+   "feature": "t_colon",
+   "mean_pos": 0.26201269030570984,
+   "mean_neg": 0.22681637108325958,
+   "rank_biserial": 0.03493356704711914,
+   "p": 0.007242491003125906,
+   "q_bh": 0.009053113753907382
+  },
+  {
+   "label": "question_based",
+   "feature": "t_dash",
+   "mean_pos": 0.04895738884806633,
+   "mean_neg": 0.0367591492831707,
+   "rank_biserial": 0.008852481842041016,
+   "p": 0.12120313942432404,
+   "q_bh": 0.13604434017015962
+  },
+  {
+   "label": "question_based",
+   "feature": "t_comma",
+   "mean_pos": 0.5077062845230103,
+   "mean_neg": 0.5634783506393433,
+   "rank_biserial": -0.03305482864379883,
+   "p": 0.03764762356877327,
+   "q_bh": 0.0443704134917685
+  },
+  {
+   "label": "question_based",
+   "feature": "t_upper_ratio",
+   "mean_pos": 0.0697869211435318,
+   "mean_neg": 0.06599822640419006,
+   "rank_biserial": 0.07469534873962402,
+   "p": 2.9892344173276797e-05,
+   "q_bh": 4.3648113173368774e-05
+  },
+  {
+   "label": "question_based",
+   "feature": "t_allcaps_words",
+   "mean_pos": 0.201269268989563,
+   "mean_neg": 0.21051494777202606,
+   "rank_biserial": -0.011768639087677002,
+   "p": 0.3102971911430359,
+   "q_bh": 0.3324612762246813
+  },
+  {
+   "label": "question_based",
+   "feature": "lex_curiosity",
+   "mean_pos": 0.28195828199386597,
+   "mean_neg": 0.18859981000423431,
+   "rank_biserial": 0.06241607666015625,
+   "p": 6.150239073576813e-08,
+   "q_bh": 9.852324729516254e-08
+  },
+  {
+   "label": "question_based",
+   "feature": "lex_exaggeration",
+   "mean_pos": 0.16228467226028442,
+   "mean_neg": 0.1742955893278122,
+   "rank_biserial": -0.0087851881980896,
+   "p": 0.4330652356147766,
+   "q_bh": 0.45513225399005186
+  },
+  {
+   "label": "question_based",
+   "feature": "lex_emotional",
+   "mean_pos": 0.04442429915070534,
+   "mean_neg": 0.08372017741203308,
+   "rank_biserial": -0.03344571590423584,
+   "p": 4.556504063657485e-05,
+   "q_bh": 6.594940092135833e-05
+  },
+  {
+   "label": "question_based",
+   "feature": "lex_question",
+   "mean_pos": 0.6790571212768555,
+   "mean_neg": 0.1031523272395134,
+   "rank_biserial": 0.5396188497543335,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "question_based",
+   "feature": "lex_address",
+   "mean_pos": 0.1260199397802353,
+   "mean_neg": 0.06439598649740219,
+   "rank_biserial": 0.057829856872558594,
+   "p": 1.208424043474968e-14,
+   "q_bh": 2.4315849655288992e-14
+  },
+  {
+   "label": "question_based",
+   "feature": "c_log_words",
+   "mean_pos": 6.525697708129883,
+   "mean_neg": 6.452693462371826,
+   "rank_biserial": 0.06771135330200195,
+   "p": 0.00015438527043443173,
+   "q_bh": 0.00021406361026622887
+  },
+  {
+   "label": "question_based",
+   "feature": "c_lead_words",
+   "mean_pos": 29.989120483398438,
+   "mean_neg": 34.28451919555664,
+   "rank_biserial": -0.18076330423355103,
+   "p": 5.260830152093427e-24,
+   "q_bh": 1.3152075380233567e-23
+  },
+  {
+   "label": "question_based",
+   "feature": "c_emotional_per_1k",
+   "mean_pos": 1.4607776403427124,
+   "mean_neg": 1.4818542003631592,
+   "rank_biserial": 0.0292283296585083,
+   "p": 0.04012646526098251,
+   "q_bh": 0.046299767608825974
+  },
+  {
+   "label": "question_based",
+   "feature": "c_exaggeration_per_1k",
+   "mean_pos": 6.800495147705078,
+   "mean_neg": 5.935454845428467,
+   "rank_biserial": 0.09369754791259766,
+   "p": 1.205884387900369e-07,
+   "q_bh": 1.8595413458276717e-07
+  },
+  {
+   "label": "question_based",
+   "feature": "c_question_marks",
+   "mean_pos": 0.9247506856918335,
+   "mean_neg": 0.44175752997398376,
+   "rank_biserial": 0.24430298805236816,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "question_based",
+   "feature": "tc_title_in_head",
+   "mean_pos": 0.7730317711830139,
+   "mean_neg": 0.7850556373596191,
+   "rank_biserial": -0.05461078882217407,
+   "p": 0.002240224741399288,
+   "q_bh": 0.0028654037389990897
+  },
+  {
+   "label": "question_based",
+   "feature": "tc_title_in_body",
+   "mean_pos": 0.8412975072860718,
+   "mean_neg": 0.8561360239982605,
+   "rank_biserial": -0.06935417652130127,
+   "p": 9.574793512001634e-05,
+   "q_bh": 0.0001350291392718179
+  },
+  {
+   "label": "question_based",
+   "feature": "tc_title_in_lead",
+   "mean_pos": 0.4163528084754944,
+   "mean_neg": 0.46490952372550964,
+   "rank_biserial": -0.09900766611099243,
+   "p": 3.137814275078199e-08,
+   "q_bh": 5.1773935538790286e-08
+  },
+  {
+   "label": "question_based",
+   "feature": "tc_numbers_missing",
+   "mean_pos": 0.05802357196807861,
+   "mean_neg": 0.08512361347675323,
+   "rank_biserial": -0.024901151657104492,
+   "p": 0.0023274074774235487,
+   "q_bh": 0.002954017182883735
+  },
+  {
+   "label": "question_based",
+   "feature": "tc_numbers_missing_ratio",
+   "mean_pos": 0.03913568705320358,
+   "mean_neg": 0.061304837465286255,
+   "rank_biserial": -0.02530449628829956,
+   "p": 0.001983767142519355,
+   "q_bh": 0.0025773352639030986
+  },
+  {
+   "label": "question_based",
+   "feature": "tc_title_lead_len_ratio",
+   "mean_pos": 0.7086631059646606,
+   "mean_neg": 0.6152660250663757,
+   "rank_biserial": 0.1554325819015503,
+   "p": 3.748682033645896e-18,
+   "q_bh": 8.590729660438513e-18
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_chars",
+   "mean_pos": 85.64680480957031,
+   "mean_neg": 74.77526092529297,
+   "rank_biserial": 0.2509746551513672,
+   "p": 4.924300130886911e-38,
+   "q_bh": 1.5931559246987066e-37
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_words",
+   "mean_pos": 19.461538314819336,
+   "mean_neg": 16.971879959106445,
+   "rank_biserial": 0.25337255001068115,
+   "p": 7.733331822084725e-39,
+   "q_bh": 2.551999501287959e-38
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_avg_word_len",
+   "mean_pos": 3.367806911468506,
+   "mean_neg": 3.398331880569458,
+   "rank_biserial": -0.06094104051589966,
+   "p": 0.001743965083733201,
+   "q_bh": 0.002283763800126811
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_has_number",
+   "mean_pos": 0.5341278314590454,
+   "mean_neg": 0.43905699253082275,
+   "rank_biserial": 0.09507083892822266,
+   "p": 1.383705239277333e-08,
+   "q_bh": 2.3297078008240812e-08
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_n_numbers",
+   "mean_pos": 0.768147349357605,
+   "mean_neg": 0.6306532621383667,
+   "rank_biserial": 0.0976935625076294,
+   "p": 1.94692972854682e-08,
+   "q_bh": 3.244882880911367e-08
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_starts_number",
+   "mean_pos": 0.100758396089077,
+   "mean_neg": 0.05094622075557709,
+   "rank_biserial": 0.04981207847595215,
+   "p": 4.7943454761778526e-11,
+   "q_bh": 9.092724178957996e-11
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_question_mark",
+   "mean_pos": 0.10509209334850311,
+   "mean_neg": 0.08601517975330353,
+   "rank_biserial": 0.019890308380126953,
+   "p": 0.03542952984571457,
+   "q_bh": 0.04205663614779068
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_ends_question",
+   "mean_pos": 0.09750812500715256,
+   "mean_neg": 0.07767561078071594,
+   "rank_biserial": 0.019832611083984375,
+   "p": 0.02885146252810955,
+   "q_bh": 0.03474811180392756
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_exclaim",
+   "mean_pos": 0.04008667543530464,
+   "mean_neg": 0.026462098583579063,
+   "rank_biserial": 0.013883352279663086,
+   "p": 0.010857034474611282,
+   "q_bh": 0.013368736479931803
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_ellipsis",
+   "mean_pos": 0.007583965547382832,
+   "mean_neg": 0.006415054202079773,
+   "rank_biserial": 0.001168966293334961,
+   "p": 0.6654782295227051,
+   "q_bh": 0.6820118501319649
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_ends_ellipsis",
+   "mean_pos": 0.0010834236163645983,
+   "mean_neg": 0.0012295519700273871,
+   "rank_biserial": -0.00014609098434448242,
+   "p": 0.9013813734054565,
+   "q_bh": 0.9068776012920752
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_quotes",
+   "mean_pos": 0.7280606627464294,
+   "mean_neg": 0.5158772468566895,
+   "rank_biserial": 0.08960604667663574,
+   "p": 5.735566466213982e-10,
+   "q_bh": 1.028661377092725e-09
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_colon",
+   "mean_pos": 0.2708559036254883,
+   "mean_neg": 0.2267186939716339,
+   "rank_biserial": 0.04372811317443848,
+   "p": 0.002001795219257474,
+   "q_bh": 0.0025804391498240875
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_dash",
+   "mean_pos": 0.03791982680559158,
+   "mean_neg": 0.037421148270368576,
+   "rank_biserial": 0.0027698278427124023,
+   "p": 0.6558129787445068,
+   "q_bh": 0.6763071343302727
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_comma",
+   "mean_pos": 0.7811484336853027,
+   "mean_neg": 0.5494493842124939,
+   "rank_biserial": 0.16160321235656738,
+   "p": 9.502910178744172e-21,
+   "q_bh": 2.2724350427431716e-20
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_upper_ratio",
+   "mean_pos": 0.0518336221575737,
+   "mean_neg": 0.06692054122686386,
+   "rank_biserial": -0.20181864500045776,
+   "p": 3.495043556720068e-25,
+   "q_bh": 9.153685505695416e-25
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "t_allcaps_words",
+   "mean_pos": 0.1744312047958374,
+   "mean_neg": 0.21175023913383484,
+   "rank_biserial": -0.03223150968551636,
+   "p": 0.010641645640134811,
+   "q_bh": 0.013202041583625894
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "lex_curiosity",
+   "mean_pos": 0.3163596987724304,
+   "mean_neg": 0.18780070543289185,
+   "rank_biserial": 0.11007189750671387,
+   "p": 1.6804328206403845e-18,
+   "q_bh": 3.961020220080906e-18
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "lex_exaggeration",
+   "mean_pos": 0.2600216567516327,
+   "mean_neg": 0.16935741901397705,
+   "rank_biserial": 0.06665229797363281,
+   "p": 4.5699533046672514e-08,
+   "q_bh": 7.465765299703925e-08
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "lex_emotional",
+   "mean_pos": 0.07800649851560593,
+   "mean_neg": 0.08168502151966095,
+   "rank_biserial": -0.003297090530395508,
+   "p": 0.7117871046066284,
+   "q_bh": 0.724968347284529
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "lex_question",
+   "mean_pos": 0.14517876505851746,
+   "mean_neg": 0.1350368857383728,
+   "rank_biserial": 0.010800600051879883,
+   "p": 0.33633512258529663,
+   "q_bh": 0.35803416275208994
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "lex_address",
+   "mean_pos": 0.11159263551235199,
+   "mean_neg": 0.06570084393024445,
+   "rank_biserial": 0.03723013401031494,
+   "p": 4.9804070840764325e-06,
+   "q_bh": 7.4033078276811835e-06
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "c_log_words",
+   "mean_pos": 6.555230140686035,
+   "mean_neg": 6.451939105987549,
+   "rank_biserial": 0.12364387512207031,
+   "p": 2.134674520481994e-10,
+   "q_bh": 3.9575426503317866e-10
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "c_lead_words",
+   "mean_pos": 30.92849349975586,
+   "mean_neg": 34.196834564208984,
+   "rank_biserial": -0.13279539346694946,
+   "p": 8.879466606437347e-12,
+   "q_bh": 1.7036185930955375e-11
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "c_emotional_per_1k",
+   "mean_pos": 1.6535282135009766,
+   "mean_neg": 1.4721405506134033,
+   "rank_biserial": 0.035329580307006836,
+   "p": 0.022581797093153,
+   "q_bh": 0.027397033238016507
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "c_exaggeration_per_1k",
+   "mean_pos": 6.397523403167725,
+   "mean_neg": 5.9636616706848145,
+   "rank_biserial": 0.05857813358306885,
+   "p": 0.0023539727553725243,
+   "q_bh": 0.0029649275163089045
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "c_question_marks",
+   "mean_pos": 0.5384615659713745,
+   "mean_neg": 0.46546563506126404,
+   "rank_biserial": 0.07416462898254395,
+   "p": 1.1717560255419812e-07,
+   "q_bh": 1.8239598510794991e-07
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "tc_title_in_head",
+   "mean_pos": 0.732590913772583,
+   "mean_neg": 0.7869353890419006,
+   "rank_biserial": -0.19870907068252563,
+   "p": 1.5709982503392118e-24,
+   "q_bh": 3.987918635476461e-24
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "tc_title_in_body",
+   "mean_pos": 0.8203392028808594,
+   "mean_neg": 0.8570273518562317,
+   "rank_biserial": -0.1669098138809204,
+   "p": 6.134475233860129e-18,
+   "q_bh": 1.3865594706670154e-17
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "tc_title_in_lead",
+   "mean_pos": 0.3657325208187103,
+   "mean_neg": 0.4669400155544281,
+   "rank_biserial": -0.21924227476119995,
+   "p": 1.9868908933417836e-29,
+   "q_bh": 5.85423209645347e-29
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "tc_numbers_missing",
+   "mean_pos": 0.11592632532119751,
+   "mean_neg": 0.08200577646493912,
+   "rank_biserial": 0.03240036964416504,
+   "p": 0.00027069757925346494,
+   "q_bh": 0.0003722091714735143
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "tc_numbers_missing_ratio",
+   "mean_pos": 0.08197905868291855,
+   "mean_neg": 0.05897751450538635,
+   "rank_biserial": 0.03203713893890381,
+   "p": 0.000319252343615517,
+   "q_bh": 0.00043177571062754354
+  },
+  {
+   "label": "misleading_presentation",
+   "feature": "tc_title_lead_len_ratio",
+   "mean_pos": 0.761269211769104,
+   "mean_neg": 0.6135690212249756,
+   "rank_biserial": 0.24340510368347168,
+   "p": 7.151614646962937e-36,
+   "q_bh": 2.2692623399017012e-35
+  }
+ ],
+ "lexicon_tests": [
+  {
+   "label": "curiosity_gap",
+   "lexicon": "curiosity",
+   "rate_pos": 0.37524900398406374,
+   "rate_neg": 0.11086914750528405,
+   "odds_ratio": 4.816899255113711,
+   "p": 8.210456347488625e-304,
+   "q_bh": 1.026307043436078e-302
+  },
+  {
+   "label": "curiosity_gap",
+   "lexicon": "exaggeration",
+   "rate_pos": 0.19272908366533864,
+   "rate_neg": 0.1441747261897137,
+   "odds_ratio": 1.4171764362182164,
+   "p": 1.0341076696613778e-13,
+   "q_bh": 2.1543909784612036e-13
+  },
+  {
+   "label": "curiosity_gap",
+   "lexicon": "emotional",
+   "rate_pos": 0.11254980079681275,
+   "rate_neg": 0.06629091141997054,
+   "odds_ratio": 1.7863161946897856,
+   "p": 4.360327943315311e-21,
+   "q_bh": 1.3626024822860347e-20
+  },
+  {
+   "label": "curiosity_gap",
+   "lexicon": "question",
+   "rate_pos": 0.19795816733067728,
+   "rate_neg": 0.10875552424261833,
+   "odds_ratio": 2.0226555412086977,
+   "p": 2.620807536879717e-47,
+   "q_bh": 9.36002691742756e-47
+  },
+  {
+   "label": "curiosity_gap",
+   "lexicon": "address",
+   "rate_pos": 0.09213147410358566,
+   "rate_neg": 0.05469800807019791,
+   "odds_ratio": 1.7538163795683828,
+   "p": 6.438015930626612e-17,
+   "q_bh": 1.7883377585073923e-16
+  },
+  {
+   "label": "exaggeration",
+   "lexicon": "curiosity",
+   "rate_pos": 0.28376068376068375,
+   "rate_neg": 0.13909051429989452,
+   "odds_ratio": 2.4521895937611107,
+   "p": 5.928500042998079e-87,
+   "q_bh": 2.9642500214990395e-86
+  },
+  {
+   "label": "exaggeration",
+   "lexicon": "exaggeration",
+   "rate_pos": 0.27521367521367524,
+   "rate_neg": 0.12773745269557665,
+   "odds_ratio": 2.5929192592117443,
+   "p": 2.448325613557605e-94,
+   "q_bh": 1.530203508473503e-93
+  },
+  {
+   "label": "exaggeration",
+   "lexicon": "emotional",
+   "rate_pos": 0.10085470085470086,
+   "rate_neg": 0.07028972020596812,
+   "odds_ratio": 1.4836179730786399,
+   "p": 1.989391294154006e-09,
+   "q_bh": 3.3156521569233434e-09
+  },
+  {
+   "label": "exaggeration",
+   "lexicon": "question",
+   "rate_pos": 0.15384615384615385,
+   "rate_neg": 0.12116136236739251,
+   "odds_ratio": 1.3188102220360285,
+   "p": 2.5676075870151107e-07,
+   "q_bh": 4.0118868547111105e-07
+  },
+  {
+   "label": "exaggeration",
+   "lexicon": "address",
+   "rate_pos": 0.08603988603988603,
+   "rate_neg": 0.05719957813760159,
+   "odds_ratio": 1.5516705795165016,
+   "p": 7.892912850762642e-10,
+   "q_bh": 1.4094487233504717e-09
+  },
+  {
+   "label": "emotional_bait",
+   "lexicon": "curiosity",
+   "rate_pos": 0.2985386221294363,
+   "rate_neg": 0.14639665776952535,
+   "odds_ratio": 2.4815424287035466,
+   "p": 1.0709136136661166e-68,
+   "q_bh": 4.462140056942153e-68
+  },
+  {
+   "label": "emotional_bait",
+   "lexicon": "exaggeration",
+   "rate_pos": 0.162839248434238,
+   "rate_neg": 0.15289543924799814,
+   "odds_ratio": 1.0776871862090505,
+   "p": 0.20478210545132236,
+   "q_bh": 0.24378822077538376
+  },
+  {
+   "label": "emotional_bait",
+   "lexicon": "emotional",
+   "rate_pos": 0.26221294363256786,
+   "rate_neg": 0.049843332946501104,
+   "odds_ratio": 6.775030256553171,
+   "p": 1.7965961933262817e-208,
+   "q_bh": 1.4971634944385681e-207
+  },
+  {
+   "label": "emotional_bait",
+   "lexicon": "question",
+   "rate_pos": 0.1323590814196242,
+   "rate_neg": 0.12626204015318557,
+   "odds_ratio": 1.0556552716129763,
+   "p": 0.394717884886188,
+   "q_bh": 0.4290411792241174
+  },
+  {
+   "label": "emotional_bait",
+   "lexicon": "address",
+   "rate_pos": 0.09979123173277661,
+   "rate_neg": 0.057154462109782984,
+   "odds_ratio": 1.8286877372084043,
+   "p": 3.31551655231086e-14,
+   "q_bh": 7.535264891615591e-14
+  },
+  {
+   "label": "question_based",
+   "lexicon": "curiosity",
+   "rate_pos": 0.22121486854034453,
+   "rate_neg": 0.16161070927345353,
+   "odds_ratio": 1.4735750118786273,
+   "p": 6.244587736499364e-07,
+   "q_bh": 8.673038522915782e-07
+  },
+  {
+   "label": "question_based",
+   "lexicon": "exaggeration",
+   "rate_pos": 0.14596554850407978,
+   "rate_neg": 0.15459354420813992,
+   "odds_ratio": 0.9346503635436312,
+   "p": 0.46562562954794195,
+   "q_bh": 0.48502669744577287
+  },
+  {
+   "label": "question_based",
+   "lexicon": "emotional",
+   "rate_pos": 0.044424297370806894,
+   "rate_neg": 0.07762064126093059,
+   "odds_ratio": 0.5524434368839285,
+   "p": 1.8037017901814454e-05,
+   "q_bh": 2.3732918291861123e-05
+  },
+  {
+   "label": "question_based",
+   "lexicon": "question",
+   "rate_pos": 0.6364460562103355,
+   "rate_neg": 0.09667494332289756,
+   "odds_ratio": 16.357723780999763,
+   "p": 0.0,
+   "q_bh": 0.0
+  },
+  {
+   "label": "question_based",
+   "lexicon": "address",
+   "rate_pos": 0.11695376246600181,
+   "rate_neg": 0.05910612112706467,
+   "odds_ratio": 2.1083316924981013,
+   "p": 2.3400379720980216e-12,
+   "q_bh": 4.5000730232654264e-12
+  },
+  {
+   "label": "misleading_presentation",
+   "lexicon": "curiosity",
+   "rate_pos": 0.26977248104008666,
+   "rate_neg": 0.15978830321821874,
+   "odds_ratio": 1.9425991245844059,
+   "p": 1.576829426001856e-16,
+   "q_bh": 3.94207356500464e-16
+  },
+  {
+   "label": "misleading_presentation",
+   "lexicon": "exaggeration",
+   "rate_pos": 0.21560130010834236,
+   "rate_neg": 0.15107452154388967,
+   "odds_ratio": 1.544517561866332,
+   "p": 4.135068607731907e-07,
+   "q_bh": 6.08098324666457e-07
+  },
+  {
+   "label": "misleading_presentation",
+   "lexicon": "emotional",
+   "rate_pos": 0.07258938244853738,
+   "rate_neg": 0.07591147225489148,
+   "odds_ratio": 0.9528119652494406,
+   "p": 0.7502843504209732,
+   "q_bh": 0.7502843504209732
+  },
+  {
+   "label": "misleading_presentation",
+   "lexicon": "question",
+   "rate_pos": 0.13759479956663057,
+   "rate_neg": 0.12648348123596706,
+   "odds_ratio": 1.1018639265643517,
+   "p": 0.3358483264363141,
+   "q_bh": 0.38164582549581155
+  },
+  {
+   "label": "misleading_presentation",
+   "lexicon": "address",
+   "rate_pos": 0.09750812567713976,
+   "rate_neg": 0.060622260237357,
+   "odds_ratio": 1.674193486918577,
+   "p": 2.545512820385916e-05,
+   "q_bh": 3.181891025482395e-05
+  }
+ ],
+ "key_terms": {
+  "curiosity_gap": [
+   {
+    "term": "tôi",
+    "z": 18.086860714704876,
+    "count_pos": 418,
+    "count_neg": 275
+   },
+   {
+    "term": "chồng",
+    "z": 14.379604182173413,
+    "count_pos": 435,
+    "count_neg": 461
+   },
+   {
+    "term": "ngờ",
+    "z": 14.224735493241662,
+    "count_pos": 305,
+    "count_neg": 243
+   },
+   {
+    "term": "này",
+    "z": 13.073336611892497,
+    "count_pos": 404,
+    "count_neg": 463
+   },
+   {
+    "term": "lộ",
+    "z": 12.058157706144359,
+    "count_pos": 301,
+    "count_neg": 315
+   },
+   {
+    "term": "bất ngờ",
+    "z": 11.267022188697911,
+    "count_pos": 230,
+    "count_neg": 217
+   },
+   {
+    "term": "khiến",
+    "z": 10.912092195781126,
+    "count_pos": 322,
+    "count_neg": 400
+   },
+   {
+    "term": "một",
+    "z": 9.80727033141324,
+    "count_pos": 408,
+    "count_neg": 630
+   },
+   {
+    "term": "bất",
+    "z": 9.741226816778834,
+    "count_pos": 294,
+    "count_neg": 393
+   },
+   {
+    "term": "nhưng",
+    "z": 9.61196271361287,
+    "count_pos": 268,
+    "count_neg": 346
+   },
+   {
+    "term": "câu",
+    "z": 9.54842459589474,
+    "count_pos": 136,
+    "count_neg": 107
+   },
+   {
+    "term": "vợ",
+    "z": 9.491613235262143,
+    "count_pos": 285,
+    "count_neg": 385
+   },
+   {
+    "term": "lý do",
+    "z": 9.169217058384275,
+    "count_pos": 120,
+    "count_neg": 90
+   },
+   {
+    "term": "lạ",
+    "z": 8.819851439324825,
+    "count_pos": 134,
+    "count_neg": 121
+   },
+   {
+    "term": "ra",
+    "z": 8.71848751318101,
+    "count_pos": 354,
+    "count_neg": 567
+   },
+   {
+    "term": "mẹ chồng",
+    "z": 8.43126137078793,
+    "count_pos": 73,
+    "count_neg": 33
+   },
+   {
+    "term": "mẹ",
+    "z": 8.385261023905393,
+    "count_pos": 359,
+    "count_neg": 595
+   },
+   {
+    "term": "thứ",
+    "z": 8.236258078159908,
+    "count_pos": 167,
+    "count_neg": 196
+   },
+   {
+    "term": "bí mật",
+    "z": 8.121838628321626,
+    "count_pos": 68,
+    "count_neg": 31
+   },
+   {
+    "term": "hôn",
+    "z": 7.982930702141318,
+    "count_pos": 177,
+    "count_neg": 223
+   },
+   {
+    "term": "hé",
+    "z": 7.90975550915446,
+    "count_pos": 81,
+    "count_neg": 54
+   },
+   {
+    "term": "hé lộ",
+    "z": 7.906509126157382,
+    "count_pos": 79,
+    "count_neg": 51
+   },
+   {
+    "term": "biết",
+    "z": 7.861821624874368,
+    "count_pos": 170,
+    "count_neg": 213
+   },
+   {
+    "term": "sự thật",
+    "z": 7.757146272308679,
+    "count_pos": 70,
+    "count_neg": 40
+   },
+   {
+    "term": "tiết lộ",
+    "z": 7.717550354488811,
+    "count_pos": 104,
+    "count_neg": 95
+   }
+  ],
+  "exaggeration": [
+   {
+    "term": "này",
+    "z": 16.30423490077779,
+    "count_pos": 424,
+    "count_neg": 443
+   },
+   {
+    "term": "loại",
+    "z": 11.441224506921252,
+    "count_pos": 211,
+    "count_neg": 222
+   },
+   {
+    "term": "cũng",
+    "z": 11.318953462232605,
+    "count_pos": 224,
+    "count_neg": 252
+   },
+   {
+    "term": "con giáp",
+    "z": 10.717361259003635,
+    "count_pos": 115,
+    "count_neg": 68
+   },
+   {
+    "term": "giáp",
+    "z": 10.288176473901391,
+    "count_pos": 121,
+    "count_neg": 88
+   },
+   {
+    "term": "đẹp",
+    "z": 9.286264054508035,
+    "count_pos": 277,
+    "count_neg": 452
+   },
+   {
+    "term": "như",
+    "z": 8.963395944311964,
+    "count_pos": 223,
+    "count_neg": 338
+   },
+   {
+    "term": "nhan",
+    "z": 8.54731320572467,
+    "count_pos": 108,
+    "count_neg": 105
+   },
+   {
+    "term": "nhan sắc",
+    "z": 8.524221238790892,
+    "count_pos": 104,
+    "count_neg": 98
+   },
+   {
+    "term": "giàu",
+    "z": 8.326243258214083,
+    "count_pos": 111,
+    "count_neg": 116
+   },
+   {
+    "term": "lộc",
+    "z": 8.18211181207853,
+    "count_pos": 75,
+    "count_neg": 53
+   },
+   {
+    "term": "càng",
+    "z": 8.1063883402601,
+    "count_pos": 128,
+    "count_neg": 156
+   },
+   {
+    "term": "ăn",
+    "z": 8.03257461793419,
+    "count_pos": 280,
+    "count_neg": 520
+   },
+   {
+    "term": "3",
+    "z": 7.766155484660508,
+    "count_pos": 364,
+    "count_neg": 759
+   },
+   {
+    "term": "cả",
+    "z": 7.7279770538156365,
+    "count_pos": 214,
+    "count_neg": 367
+   },
+   {
+    "term": "3 con",
+    "z": 7.342134411824913,
+    "count_pos": 60,
+    "count_neg": 42
+   },
+   {
+    "term": "khiến",
+    "z": 7.201056970557014,
+    "count_pos": 247,
+    "count_neg": 475
+   },
+   {
+    "term": "nhất",
+    "z": 7.114147238200791,
+    "count_pos": 347,
+    "count_neg": 752
+   },
+   {
+    "term": "thần",
+    "z": 7.080736180683761,
+    "count_pos": 119,
+    "count_neg": 165
+   },
+   {
+    "term": "visual",
+    "z": 7.043276848482567,
+    "count_pos": 44,
+    "count_neg": 20
+   },
+   {
+    "term": "sốc",
+    "z": 6.864859412890805,
+    "count_pos": 74,
+    "count_neg": 76
+   },
+   {
+    "term": "may",
+    "z": 6.767959993403387,
+    "count_pos": 63,
+    "count_neg": 57
+   },
+   {
+    "term": "không",
+    "z": 6.7585670896938,
+    "count_pos": 585,
+    "count_neg": 1478
+   },
+   {
+    "term": "là",
+    "z": 6.7476149468615185,
+    "count_pos": 367,
+    "count_neg": 832
+   },
+   {
+    "term": "rau",
+    "z": 6.702901128668571,
+    "count_pos": 58,
+    "count_neg": 49
+   }
+  ],
+  "emotional_bait": [
+   {
+    "term": "tôi",
+    "z": 21.056356694484197,
+    "count_pos": 370,
+    "count_neg": 323
+   },
+   {
+    "term": "chồng",
+    "z": 17.14516014985879,
+    "count_pos": 370,
+    "count_neg": 526
+   },
+   {
+    "term": "khóc",
+    "z": 13.569567133675683,
+    "count_pos": 117,
+    "count_neg": 52
+   },
+   {
+    "term": "mẹ",
+    "z": 13.459451092169825,
+    "count_pos": 330,
+    "count_neg": 624
+   },
+   {
+    "term": "con",
+    "z": 13.14054476463108,
+    "count_pos": 495,
+    "count_neg": 1209
+   },
+   {
+    "term": "khiến",
+    "z": 12.65021223821928,
+    "count_pos": 262,
+    "count_neg": 460
+   },
+   {
+    "term": "vợ",
+    "z": 11.289624736591861,
+    "count_pos": 232,
+    "count_neg": 438
+   },
+   {
+    "term": "gái",
+    "z": 9.638635250350024,
+    "count_pos": 233,
+    "count_neg": 531
+   },
+   {
+    "term": "trai",
+    "z": 9.612705962632594,
+    "count_pos": 193,
+    "count_neg": 397
+   },
+   {
+    "term": "khi",
+    "z": 9.009359020138696,
+    "count_pos": 367,
+    "count_neg": 1082
+   },
+   {
+    "term": "bật khóc",
+    "z": 8.896157239225452,
+    "count_pos": 47,
+    "count_neg": 11
+   },
+   {
+    "term": "đau",
+    "z": 8.144316336216729,
+    "count_pos": 68,
+    "count_neg": 78
+   },
+   {
+    "term": "thấy",
+    "z": 7.936854711749481,
+    "count_pos": 113,
+    "count_neg": 211
+   },
+   {
+    "term": "bị",
+    "z": 7.85223719619153,
+    "count_pos": 415,
+    "count_neg": 1391
+   },
+   {
+    "term": "sốc",
+    "z": 7.808334118810702,
+    "count_pos": 67,
+    "count_neg": 83
+   },
+   {
+    "term": "kinh hoàng",
+    "z": 7.775257755886829,
+    "count_pos": 38,
+    "count_neg": 16
+   },
+   {
+    "term": "hôn",
+    "z": 7.502411435106869,
+    "count_pos": 127,
+    "count_neg": 273
+   },
+   {
+    "term": "người",
+    "z": 7.473997918623916,
+    "count_pos": 618,
+    "count_neg": 2348
+   },
+   {
+    "term": "xót",
+    "z": 7.453543978506452,
+    "count_pos": 33,
+    "count_neg": 7
+   },
+   {
+    "term": "mình",
+    "z": 7.444732479069277,
+    "count_pos": 104,
+    "count_neg": 200
+   },
+   {
+    "term": "cô",
+    "z": 7.379543767789809,
+    "count_pos": 146,
+    "count_neg": 344
+   },
+   {
+    "term": "khiến tôi",
+    "z": 7.28931669325618,
+    "count_pos": 32,
+    "count_neg": 10
+   },
+   {
+    "term": "nghẹn",
+    "z": 7.195324746721752,
+    "count_pos": 31,
+    "count_neg": 9
+   },
+   {
+    "term": "mẹ chồng",
+    "z": 7.054255193345381,
+    "count_pos": 50,
+    "count_neg": 56
+   },
+   {
+    "term": "cũ",
+    "z": 6.9422590035497675,
+    "count_pos": 70,
+    "count_neg": 112
+   }
+  ],
+  "question_based": [
+   {
+    "term": "gì",
+    "z": 17.591167526518127,
+    "count_pos": 178,
+    "count_neg": 275
+   },
+   {
+    "term": "nào",
+    "z": 16.04113426926304,
+    "count_pos": 161,
+    "count_neg": 283
+   },
+   {
+    "term": "sao",
+    "z": 15.652132959489128,
+    "count_pos": 213,
+    "count_neg": 560
+   },
+   {
+    "term": "vì sao",
+    "z": 12.102055919020055,
+    "count_pos": 73,
+    "count_neg": 86
+   },
+   {
+    "term": "ra sao",
+    "z": 11.836571604103403,
+    "count_pos": 61,
+    "count_neg": 50
+   },
+   {
+    "term": "thế nào",
+    "z": 10.838154886117769,
+    "count_pos": 62,
+    "count_neg": 82
+   },
+   {
+    "term": "nói gì",
+    "z": 10.03963863207526,
+    "count_pos": 45,
+    "count_neg": 40
+   },
+   {
+    "term": "tại sao",
+    "z": 9.757580424147589,
+    "count_pos": 38,
+    "count_neg": 20
+   },
+   {
+    "term": "có",
+    "z": 8.742886669484196,
+    "count_pos": 279,
+    "count_neg": 1934
+   },
+   {
+    "term": "liệu có",
+    "z": 7.408176968278601,
+    "count_pos": 22,
+    "count_neg": 5
+   },
+   {
+    "term": "chuyện gì",
+    "z": 7.408176968278601,
+    "count_pos": 22,
+    "count_neg": 5
+   },
+   {
+    "term": "ra",
+    "z": 7.177443601851138,
+    "count_pos": 134,
+    "count_neg": 787
+   },
+   {
+    "term": "liệu",
+    "z": 7.037254355935834,
+    "count_pos": 36,
+    "count_neg": 77
+   },
+   {
+    "term": "xảy",
+    "z": 6.8816984257985405,
+    "count_pos": 28,
+    "count_neg": 45
+   },
+   {
+    "term": "xảy ra",
+    "z": 6.8816984257985405,
+    "count_pos": 28,
+    "count_neg": 45
+   },
+   {
+    "term": "là ai",
+    "z": 6.695354396756445,
+    "count_pos": 22,
+    "count_neg": 25
+   },
+   {
+    "term": "là gì",
+    "z": 6.474608841086219,
+    "count_pos": 18,
+    "count_neg": 14
+   },
+   {
+    "term": "hay",
+    "z": 6.306851521747247,
+    "count_pos": 50,
+    "count_neg": 183
+   },
+   {
+    "term": "gì mà",
+    "z": 6.187423695016314,
+    "count_pos": 15,
+    "count_neg": 6
+   },
+   {
+    "term": "trả lời",
+    "z": 6.17405010702261,
+    "count_pos": 21,
+    "count_neg": 30
+   },
+   {
+    "term": "cỡ nào",
+    "z": 6.124908286197911,
+    "count_pos": 15,
+    "count_neg": 8
+   },
+   {
+    "term": "thế",
+    "z": 6.089678203065852,
+    "count_pos": 106,
+    "count_neg": 653
+   },
+   {
+    "term": "có gì",
+    "z": 6.085912853961969,
+    "count_pos": 18,
+    "count_neg": 20
+   },
+   {
+    "term": "nghiệm tâm",
+    "z": 6.000327382300019,
+    "count_pos": 16,
+    "count_neg": 14
+   },
+   {
+    "term": "nào mà",
+    "z": 5.937573774003873,
+    "count_pos": 14,
+    "count_neg": 7
+   }
+  ],
+  "misleading_presentation": [
+   {
+    "term": "loại",
+    "z": 6.789142705783088,
+    "count_pos": 76,
+    "count_neg": 357
+   },
+   {
+    "term": "con giáp",
+    "z": 5.3347632051917495,
+    "count_pos": 37,
+    "count_neg": 146
+   },
+   {
+    "term": "giáp",
+    "z": 5.126569868978583,
+    "count_pos": 39,
+    "count_neg": 170
+   },
+   {
+    "term": "lộc",
+    "z": 4.4878216899881815,
+    "count_pos": 26,
+    "count_neg": 102
+   },
+   {
+    "term": "này",
+    "z": 4.477225873739852,
+    "count_pos": 95,
+    "count_neg": 772
+   },
+   {
+    "term": "ung thư",
+    "z": 4.334244352160107,
+    "count_pos": 29,
+    "count_neg": 130
+   },
+   {
+    "term": "gan",
+    "z": 4.314283459177221,
+    "count_pos": 15,
+    "count_neg": 38
+   },
+   {
+    "term": "ung",
+    "z": 4.310727392267191,
+    "count_pos": 29,
+    "count_neg": 131
+   },
+   {
+    "term": "tâm lý",
+    "z": 4.021299009024678,
+    "count_pos": 15,
+    "count_neg": 44
+   },
+   {
+    "term": "nghiệm tâm",
+    "z": 3.8831827036872846,
+    "count_pos": 10,
+    "count_neg": 20
+   },
+   {
+    "term": "trắc nghiệm",
+    "z": 3.8725206010699575,
+    "count_pos": 11,
+    "count_neg": 25
+   },
+   {
+    "term": "loại quả",
+    "z": 3.7145265695703644,
+    "count_pos": 15,
+    "count_neg": 51
+   },
+   {
+    "term": "tài lộc",
+    "z": 3.604544545144928,
+    "count_pos": 13,
+    "count_neg": 41
+   },
+   {
+    "term": "3 con",
+    "z": 3.571725669433615,
+    "count_pos": 19,
+    "count_neg": 83
+   },
+   {
+    "term": "5 loại",
+    "z": 3.5434624298947432,
+    "count_pos": 10,
+    "count_neg": 25
+   },
+   {
+    "term": "ăn nhiều",
+    "z": 3.526772861315163,
+    "count_pos": 6,
+    "count_neg": 7
+   },
+   {
+    "term": "càng",
+    "z": 3.493107832049866,
+    "count_pos": 37,
+    "count_neg": 247
+   },
+   {
+    "term": "trắc",
+    "z": 3.457940878257639,
+    "count_pos": 11,
+    "count_neg": 32
+   },
+   {
+    "term": "dặn",
+    "z": 3.42900717830852,
+    "count_pos": 7,
+    "count_neg": 12
+   },
+   {
+    "term": "bằng chứng",
+    "z": 3.415808802723813,
+    "count_pos": 6,
+    "count_neg": 8
+   },
+   {
+    "term": "thức uống",
+    "z": 3.415808802723813,
+    "count_pos": 6,
+    "count_neg": 8
+   },
+   {
+    "term": "bạn sẽ",
+    "z": 3.393329479026421,
+    "count_pos": 8,
+    "count_neg": 17
+   },
+   {
+    "term": "loại rau",
+    "z": 3.351391466258993,
+    "count_pos": 11,
+    "count_neg": 34
+   },
+   {
+    "term": "uống",
+    "z": 3.2812970925608766,
+    "count_pos": 25,
+    "count_neg": 145
+   },
+   {
+    "term": "rau",
+    "z": 3.1759201919398414,
+    "count_pos": 18,
+    "count_neg": 89
+   }
+  ]
+ },
+ "by_source": {
+  "afamily.vn": {
+   "n": 3230,
+   "prevalence": {
+    "curiosity_gap": 0.2541795665634675,
+    "exaggeration": 0.2520123839009288,
+    "emotional_bait": 0.18204334365325078,
+    "question_based": 0.0696594427244582,
+    "misleading_presentation": 0.07089783281733746
+   }
+  },
+  "cafef.vn": {
+   "n": 123,
+   "prevalence": {
+    "curiosity_gap": 0.17073170731707318,
+    "exaggeration": 0.016260162601626018,
+    "emotional_bait": 0.024390243902439025,
+    "question_based": 0.056910569105691054,
+    "misleading_presentation": 0.04065040650406504
+   }
+  },
+  "dantri.com.vn": {
+   "n": 398,
+   "prevalence": {
+    "curiosity_gap": 0.0678391959798995,
+    "exaggeration": 0.017587939698492462,
+    "emotional_bait": 0.02512562814070352,
+    "question_based": 0.02763819095477387,
+    "misleading_presentation": 0.03015075376884422
+   }
+  },
+  "docnhanh.vn": {
+   "n": 1090,
+   "prevalence": {
+    "curiosity_gap": 0.1871559633027523,
+    "exaggeration": 0.14495412844036698,
+    "emotional_bait": 0.18256880733944955,
+    "question_based": 0.06788990825688074,
+    "misleading_presentation": 0.05596330275229358
+   }
+  },
+  "eva.vn": {
+   "n": 2931,
+   "prevalence": {
+    "curiosity_gap": 0.2569089048106448,
+    "exaggeration": 0.23950870010235414,
+    "emotional_bait": 0.17980211531900375,
+    "question_based": 0.04196519959058342,
+    "misleading_presentation": 0.05868304332992153
+   }
+  },
+  "giadinh.suckhoedoisong.vn": {
+   "n": 91,
+   "prevalence": {
+    "curiosity_gap": 0.13186813186813187,
+    "exaggeration": 0.03296703296703297,
+    "emotional_bait": 0.054945054945054944,
+    "question_based": 0.07692307692307693,
+    "misleading_presentation": 0.07692307692307693
+   }
+  },
+  "kenh14.vn": {
+   "n": 3127,
+   "prevalence": {
+    "curiosity_gap": 0.30156699712184204,
+    "exaggeration": 0.23920690757914934,
+    "emotional_bait": 0.14934441957147426,
+    "question_based": 0.07227374480332587,
+    "misleading_presentation": 0.04956827630316597
+   }
+  },
+  "nguoiduatin.vn": {
+   "n": 58,
+   "prevalence": {
+    "curiosity_gap": 0.08620689655172414,
+    "exaggeration": 0.017241379310344827,
+    "emotional_bait": 0.06896551724137931,
+    "question_based": 0.017241379310344827,
+    "misleading_presentation": 0.017241379310344827
+   }
+  },
+  "nhandan.vn": {
+   "n": 1271,
+   "prevalence": {
+    "curiosity_gap": 0.003147128245476003,
+    "exaggeration": 0.0007867820613690008,
+    "emotional_bait": 0.0015735641227380016,
+    "question_based": 0.003147128245476003,
+    "misleading_presentation": 0.02832415420928403
+   }
+  },
+  "phunuvietnam.vn": {
+   "n": 152,
+   "prevalence": {
+    "curiosity_gap": 0.09210526315789473,
+    "exaggeration": 0.0,
+    "emotional_bait": 0.019736842105263157,
+    "question_based": 0.039473684210526314,
+    "misleading_presentation": 0.02631578947368421
+   }
+  },
+  "saostar.vn": {
+   "n": 1084,
+   "prevalence": {
+    "curiosity_gap": 0.31642066420664205,
+    "exaggeration": 0.283210332103321,
+    "emotional_bait": 0.20202952029520296,
+    "question_based": 0.11623616236162361,
+    "misleading_presentation": 0.046125461254612546
+   }
+  },
+  "soha.vn": {
+   "n": 3078,
+   "prevalence": {
+    "curiosity_gap": 0.24918778427550356,
+    "exaggeration": 0.23196881091617932,
+    "emotional_bait": 0.11143599740090968,
+    "question_based": 0.0705003248862898,
+    "misleading_presentation": 0.037037037037037035
+   }
+  },
+  "suckhoedoisong.vn": {
+   "n": 94,
+   "prevalence": {
+    "curiosity_gap": 0.010638297872340425,
+    "exaggeration": 0.02127659574468085,
+    "emotional_bait": 0.0,
+    "question_based": 0.06382978723404255,
+    "misleading_presentation": 0.0
+   }
+  },
+  "thanhnien.vn": {
+   "n": 407,
+   "prevalence": {
+    "curiosity_gap": 0.056511056511056514,
+    "exaggeration": 0.019656019656019656,
+    "emotional_bait": 0.012285012285012284,
+    "question_based": 0.0343980343980344,
+    "misleading_presentation": 0.044226044226044224
+   }
+  },
+  "tienphong.vn": {
+   "n": 408,
+   "prevalence": {
+    "curiosity_gap": 0.02696078431372549,
+    "exaggeration": 0.024509803921568627,
+    "emotional_bait": 0.00980392156862745,
+    "question_based": 0.014705882352941176,
+    "misleading_presentation": 0.03676470588235294
+   }
+  },
+  "tiim.com.vn": {
+   "n": 381,
+   "prevalence": {
+    "curiosity_gap": 0.05511811023622047,
+    "exaggeration": 0.05249343832020997,
+    "emotional_bait": 0.026246719160104987,
+    "question_based": 0.03937007874015748,
+    "misleading_presentation": 0.007874015748031496
+   }
+  },
+  "tuoitre.vn": {
+   "n": 405,
+   "prevalence": {
+    "curiosity_gap": 0.022222222222222223,
+    "exaggeration": 0.0049382716049382715,
+    "emotional_bait": 0.0049382716049382715,
+    "question_based": 0.024691358024691357,
+    "misleading_presentation": 0.014814814814814815
+   }
+  },
+  "vietnamnet.vn": {
+   "n": 396,
+   "prevalence": {
+    "curiosity_gap": 0.04292929292929293,
+    "exaggeration": 0.005050505050505051,
+    "emotional_bait": 0.005050505050505051,
+    "question_based": 0.027777777777777776,
+    "misleading_presentation": 0.030303030303030304
+   }
+  },
+  "vnexpress.net": {
+   "n": 453,
+   "prevalence": {
+    "curiosity_gap": 0.013245033112582781,
+    "exaggeration": 0.0,
+    "emotional_bait": 0.0,
+    "question_based": 0.006622516556291391,
+    "misleading_presentation": 0.017660044150110375
+   }
+  },
+  "yan.vn": {
+   "n": 50,
+   "prevalence": {
+    "curiosity_gap": 0.04,
+    "exaggeration": 0.12,
+    "emotional_bait": 0.0,
+    "question_based": 0.04,
+    "misleading_presentation": 0.0
+   }
+  },
+  "znews.vn": {
+   "n": 402,
+   "prevalence": {
+    "curiosity_gap": 0.029850746268656716,
+    "exaggeration": 0.007462686567164179,
+    "emotional_bait": 0.004975124378109453,
+    "question_based": 0.022388059701492536,
+    "misleading_presentation": 0.03731343283582089
+   }
+  }
+ },
+ "detection_type_rule": {
+  "clickbait_without_type": 0,
+  "type_without_clickbait": 0
+ }
+}
