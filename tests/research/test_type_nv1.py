@@ -96,3 +96,14 @@ def test_thresholds_and_metrics():
     assert lo <= r["macro_f1"] <= hi
     d = evaluation.paired_bootstrap(P, per, P, per, Y, groups, n=50)
     assert d["mean_diff"] == 0 and d["p_not_better"] == 1.0
+
+
+def test_cohen_kappa_and_confident_learning():
+    assert analysis.cohen_kappa([1, 0, 1, 0], [1, 0, 1, 0]) == 1.0
+    assert abs(analysis.cohen_kappa([1, 1, 0, 0], [1, 0, 1, 0])) < 1e-12
+    Y = np.array([[1], [1], [1], [0], [0], [0], [0], [0]])
+    oof = np.array([[0.9], [0.8], [0.1], [0.1], [0.2], [0.1], [0.95], [0.05]])
+    suspect, margin, th = analysis.confident_learning(oof, Y)
+    # row 2: labeled 1 but confidently negative; row 6: labeled 0 but above t1
+    assert suspect[:, 0].tolist() == [False, False, True, False, False, False, True, False]
+    assert margin[6, 0] > 0 and margin[2, 0] > 0 and 0 < th[0]["t1"] < 1

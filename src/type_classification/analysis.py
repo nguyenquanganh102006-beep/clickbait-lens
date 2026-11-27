@@ -128,3 +128,36 @@ def fightin_words(token_lists, y, top=20, min_count=10, alpha0=None):
         {"term": w, "z": float(z), "count_pos": int(cp), "count_neg": int(cn)}
         for w, z, cp, cn in out[:top]
     ]
+
+
+def cohen_kappa(a, b):
+    """Agreement of two binary annotation passes beyond chance (Cohen, 1960)."""
+    a, b = np.asarray(a).astype(int), np.asarray(b).astype(int)
+    po = float((a == b).mean())
+    pe = float(a.mean() * b.mean() + (1 - a.mean()) * (1 - b.mean()))
+    return (po - pe) / (1 - pe) if pe < 1 else 1.0
+
+
+def confident_learning(oof, Y):
+    """Binary Confident Learning per label (Northcutt, Jiang & Chuang, JAIR 2021).
+
+    oof [N,K] out-of-fold P(label=1), Y [N,K] given labels. Per label, the per-class
+    self-confidence thresholds are t1 = mean P(1) over examples labeled 1 and
+    t0 = mean P(0) over examples labeled 0. An example labeled 0 with P(1) >= t1 is a suspected
+    missing positive; labeled 1 with P(0) >= t0 is a suspected false positive. Returns a boolean
+    suspect mask [N,K], a margin score (how far past the threshold) and the thresholds.
+    """
+    oof, Y = np.asarray(oof, float), np.asarray(Y).astype(int)
+    suspect = np.zeros_like(Y, dtype=bool)
+    margin = np.zeros_like(oof)
+    th = []
+    for k in range(Y.shape[1]):
+        p1, y = oof[:, k], Y[:, k]
+        t1 = float(p1[y == 1].mean())
+        t0 = float((1 - p1[y == 0]).mean())
+        miss = (y == 0) & (p1 >= t1)
+        wrong = (y == 1) & ((1 - p1) >= t0)
+        suspect[:, k] = miss | wrong
+        margin[:, k] = np.where(miss, p1 - t1, np.where(wrong, (1 - p1) - t0, 0.0))
+        th.append({"t1": t1, "t0": t0})
+    return suspect, margin, th
