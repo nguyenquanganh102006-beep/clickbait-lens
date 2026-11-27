@@ -165,6 +165,20 @@ def run_base(exp, train, val, cache, cv, events):
 
 def run_stack(exp, train, val, cv, base_results):
     names = exp["stack"]
+    for n in names:  # bases not run in this process: latest saved run of that experiment
+        if n not in base_results:
+            done = sorted((ROOT / "results").glob("type_classification__*/metrics.json"))
+            dirs = [
+                p.parent
+                for p in done
+                if json.loads(p.read_text(encoding="utf-8")).get("experiment_key") == n
+            ]
+            if not dirs:
+                raise ValueError(f"Stacking base {n} has no saved run")
+            base_results[n] = {
+                "oof": np.load(dirs[-1] / "oof_probs.npy"),
+                "val": np.load(dirs[-1] / "val_probs.npy"),
+            }
     Ptr = np.hstack([base_results[n]["oof"] for n in names])
     Pva = np.hstack([base_results[n]["val"] for n in names])
     oof = np.zeros_like(train.Y)
@@ -236,19 +250,7 @@ def main():
     cv = folds(train.groups, cfg["cv"]["folds"])
     results = {}
     for key, exp in cfg["experiments"].items():
-        if (
-            args.only
-            and key not in args.only
-            and key
-            not in sum(
-                [
-                    cfg["experiments"][o].get("stack", [])
-                    for o in args.only
-                    if o in cfg["experiments"]
-                ],
-                [],
-            )
-        ):
+        if args.only and key not in args.only:
             continue
         t0 = time.time()
         run_cfg = {
