@@ -112,8 +112,9 @@ def load_cache(path):
         "hand_names": json.loads((path / "handcrafted_names.json").read_text(encoding="utf-8")),
         "meta": json.loads((path / "meta.json").read_text(encoding="utf-8")),
     }
-    for k in ("title_emb", "lead_emb", "content_emb"):
-        if (path / f"{k}.npy").exists():
+    emb = ("title_emb", "lead_emb", "content_emb")
+    if "embedder" in cache["meta"] and all((path / f"{k}.npy").exists() for k in emb):
+        for k in emb:  # semantic block only when the embedding run has fully finished
             cache[k] = np.load(path / f"{k}.npy")
     return cache
 
