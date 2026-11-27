@@ -1,0 +1,61 @@
+# Configuration for Branch 3 — Task 3 (NV3): Image-Content Consistency (IC)
+# Save to: configs/consistency_ic.yaml
+format_version: '1.0'
+run_mode: experiment
+task: consistency
+relation: ic
+seed: 20261124
+
+# Choose one of: c3_1 | c3_2 | c3_3 | c3_4 | c3_5 | c3_6
+experiment: c3_5
+
+data:
+  dataset_version: '1.0'
+  image_root: null
+  cache_dir: null  # Optional directory to cache precomputed image/chunk embeddings (.pt)
+  nli_logits_dir: null  # Required only for c3_6: folder with train.pt & validation.pt
+  # Long-text settings (dataset median=658 words, max=7,007 words)
+  truncate_words: 180
+  summary_sentences: 5
+  summary_words: 200
+  chunk_words: 120
+  overlap_words: 30
+  max_chunks: 8
+
+encoder:
+  # Use "offline-hash" for quick local smoke tests without downloading weights.
+  # For real experiments, switch to "hf-vlm" and pin exact model_id + revision.
+  backend: offline-hash
+  model_id: google/siglip2-base-patch16-224
+  revision: main
+  max_length: 64
+  embed_dim: 64
+
+model:
+  # Model slug (lowercase, digits, hyphens only — required by run_id contract)
+  name: ic-c3-5-attention
+  # For C3.3/C3.4/C3.5: similarity | topk_mlp | max | mean | topk | attention
+  aggregation: attention
+  top_k: 3
+  hidden_dim: 256
+  dropout: 0.2
+
+imbalance:
+  # Shared Branch 3 imbalance strategy (Plan train.docx Section 3.5)
+  loss_type: focal            # cross_entropy | weighted_ce | focal
+  weight_strategy: inverse_sqrt  # uniform | inverse | inverse_sqrt | effective_num
+  focal_gamma: 2.0
+  use_balanced_sampler: true
+  sampler_power: 0.5
+  # Train-only controlled hard negatives (strictly disabled on validation/test)
+  hard_negative_ratio: 0.05
+
+training:
+  device: auto                # auto | cuda | cpu
+  batch_size: 32
+  epochs: 15
+  learning_rate: 0.0003
+  weight_decay: 0.01
+  grad_clip: 1.0
+  num_workers: 0
+  select_metric: ic.macro_f1
