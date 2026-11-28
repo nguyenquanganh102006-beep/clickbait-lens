@@ -94,7 +94,8 @@ class OfflineHashEncoder:
     def __init__(self, embed_dim: int = 64) -> None:
         self.embed_dim = int(embed_dim)
 
-    def encode_images(self, images: Sequence) -> torch.Tensor:
+    def encode_images(self, images: Sequence, batch_size: int = 32) -> torch.Tensor:
+        del batch_size
         vectors = []
         for img in images:
             arr = np.asarray(img.resize((16, 16)), dtype=np.float32) / 255.0
@@ -105,7 +106,8 @@ class OfflineHashEncoder:
             vectors.append(vec / norm)
         return torch.tensor(np.stack(vectors), dtype=torch.float32)
 
-    def encode_texts(self, texts: Sequence[str]) -> torch.Tensor:
+    def encode_texts(self, texts: Sequence[str], batch_size: int = 64) -> torch.Tensor:
+        del batch_size
         vectors = []
         for text in texts:
             vec = np.zeros(self.embed_dim, dtype=np.float32)
@@ -118,7 +120,7 @@ class OfflineHashEncoder:
 
 
 class HuggingFaceVLMEncoder:
-    """Wrapper for SigLIP 2 or Multilingual CLIP vision-language encoders.
+    """Batched FP16 wrapper for SigLIP 2 or Multilingual CLIP vision-language encoders.
 
     Requires `transformers` installed in the user's training environment.
     Pin exact `model_id` and `revision` in configs/consistency_ic.yaml.
@@ -135,29 +137,58 @@ class HuggingFaceVLMEncoder:
         from transformers import AutoModel, AutoProcessor
 
         self.device = torch.device(device)
+        self.use_amp = self.device.type == "cuda"
         self.max_length = int(max_length)
         self.processor = AutoProcessor.from_pretrained(model_id, revision=revision)
         self.model = AutoModel.from_pretrained(model_id, revision=revision).to(self.device)
         self.model.eval()
-        self.embed_dim = int(self.model.config.projection_dim)
+        cfg = self.model.config
+        if hasattr(cfg, "projection_dim"):
+            self.embed_dim = int(cfg.projection_dim)
+        elif hasattr(cfg, "vision_config") and hasattr(cfg.vision_config, "hidden_size"):
+            self.embed_dim = int(cfg.vision_config.hidden_size)
+        else:
+            raise ValueError(f"Cannot infer embedding dim for {model_id}")
+
+    @staticmethod
+    def _to_tensor(feats) -> torch.Tensor:
+        if isinstance(feats, torch.Tensor):
+            return feats
+        for attr in ("pooler_output", "image_embeds", "text_embeds"):
+            val = getattr(feats, attr, None)
+            if isinstance(val, torch.Tensor):
+                return val
+        if hasattr(feats, "last_hidden_state"):
+            return feats.last_hidden_state[:, 0]
+        raise TypeError(f"Unsupported feature output type: {type(feats)}")
 
     @torch.no_grad()
-    def encode_images(self, images: Sequence) -> torch.Tensor:
-        inputs = self.processor(images=list(images), return_tensors="pt").to(self.device)
-        feats = self.model.get_image_features(**inputs)
-        return F.normalize(feats.float(), dim=-1).cpu()
+    def encode_images(self, images: Sequence, batch_size: int = 32) -> torch.Tensor:
+        chunks = []
+        for start in range(0, len(images), batch_size):
+            batch = list(images[start : start + batch_size])
+            inputs = self.processor(images=batch, return_tensors="pt").to(self.device)
+            with torch.amp.autocast("cuda", dtype=torch.float16, enabled=self.use_amp):
+                feats = self._to_tensor(self.model.get_image_features(**inputs))
+            chunks.append(F.normalize(feats.float(), dim=-1).cpu())
+        return torch.cat(chunks, dim=0)
 
     @torch.no_grad()
-    def encode_texts(self, texts: Sequence[str]) -> torch.Tensor:
-        inputs = self.processor(
-            text=list(texts),
-            padding=True,
-            truncation=True,
-            max_length=self.max_length,
-            return_tensors="pt",
-        ).to(self.device)
-        feats = self.model.get_text_features(**inputs)
-        return F.normalize(feats.float(), dim=-1).cpu()
+    def encode_texts(self, texts: Sequence[str], batch_size: int = 64) -> torch.Tensor:
+        chunks = []
+        for start in range(0, len(texts), batch_size):
+            batch = list(texts[start : start + batch_size])
+            inputs = self.processor(
+                text=batch,
+                padding="max_length",
+                truncation=True,
+                max_length=self.max_length,
+                return_tensors="pt",
+            ).to(self.device)
+            with torch.amp.autocast("cuda", dtype=torch.float16, enabled=self.use_amp):
+                feats = self._to_tensor(self.model.get_text_features(**inputs))
+            chunks.append(F.normalize(feats.float(), dim=-1).cpu())
+        return torch.cat(chunks, dim=0)
 
 
 class GlobalICModel(nn.Module):

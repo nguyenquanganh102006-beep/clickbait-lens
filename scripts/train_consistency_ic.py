@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -99,8 +100,35 @@ def build_model(cfg: dict, embed_dim: int) -> torch.nn.Module:
     return CaptionNLIModel(calibrate=True)
 
 
+def _cache_path(cfg: dict, split_name: str) -> Path | None:
+    cache_dir = cfg["data"].get("cache_dir")
+    if not cache_dir:
+        return None
+    exp = cfg["experiment"]
+    mode = exp if exp in ("c3_1", "c3_2") else "passages"
+    hn = float(cfg["imbalance"].get("hard_negative_ratio", 0.0)) if split_name == "train" else 0.0
+    key_obj = {
+        "backend": cfg["encoder"].get("backend"),
+        "model_id": cfg["encoder"].get("model_id"),
+        "revision": cfg["encoder"].get("revision"),
+        "max_length": cfg["encoder"].get("max_length"),
+        "mode": mode,
+        "chunk_words": cfg["data"].get("chunk_words"),
+        "overlap_words": cfg["data"].get("overlap_words"),
+        "max_chunks": cfg["data"].get("max_chunks"),
+        "truncate_words": cfg["data"].get("truncate_words"),
+        "summary_sentences": cfg["data"].get("summary_sentences"),
+        "hn_ratio": hn,
+        "seed": cfg["seed"],
+    }
+    digest = hashlib.sha256(json.dumps(key_obj, sort_keys=True).encode()).hexdigest()[:12]
+    path = Path(cache_dir)
+    path.mkdir(parents=True, exist_ok=True)
+    return path / f"{split_name}_{mode}_{digest}.pt"
+
+
 def _extract_split_features(dataset, encoder, cfg: dict, split_name: str) -> dict:
-    """Encode a dataset split into compact tensors for fast, reproducible training."""
+    """Encode a dataset split in GPU batches with optional disk caching."""
     exp = cfg["experiment"]
     d_cfg = cfg["data"]
     max_chunks = int(d_cfg.get("max_chunks", 8))
@@ -132,64 +160,97 @@ def _extract_split_features(dataset, encoder, cfg: dict, split_name: str) -> dic
             "masks": torch.tensor(np.stack(masks_list), dtype=torch.float32),
         }
 
+    cpath = _cache_path(cfg, split_name)
+    if cpath is not None and cpath.exists():
+        print(f"[cache] Loading {split_name} embeddings from {cpath}", flush=True)
+        return torch.load(cpath, map_location="cpu", weights_only=False)
+
     embed_dim = encoder.embed_dim
-    article_ids = []
-    targets_list = []
-    masks_list = []
+    total = len(dataset)
+    img_bs = int(cfg["encoder"].get("encode_batch_size", 32))
+    txt_bs = int(cfg["encoder"].get("text_batch_size", 64))
+
+    article_ids: list[str] = []
+    targets_list: list[np.ndarray] = []
+    masks_list: list[np.ndarray] = []
     img_embs: list[torch.Tensor] = []
     txt_embs: list[torch.Tensor] = []
     chunk_embs_all: list[torch.Tensor] = []
     chunk_masks_all: list[torch.Tensor] = []
 
-    for i in range(len(dataset)):
-        sample = dataset[i]
-        feats = sample["features"]
-        article_ids.append(sample["article_id"])
-        targets_list.append(sample["targets"]["consistency"])
-        masks_list.append(sample["masks"]["consistency"])
+    for start in range(0, total, img_bs):
+        end = min(start + img_bs, total)
+        batch_images = []
+        batch_texts: list[str] = []
+        batch_chunk_counts: list[int] = []
 
-        img_vec = encoder.encode_images([feats["image"]])[0]
-        img_embs.append(img_vec)
+        for i in range(start, end):
+            sample = dataset[i]
+            feats = sample["features"]
+            article_ids.append(sample["article_id"])
+            targets_list.append(sample["targets"]["consistency"])
+            masks_list.append(sample["masks"]["consistency"])
+            batch_images.append(feats["image"])
 
-        if exp == "c3_1":
-            text = truncate_content(feats["content"], max_words=int(d_cfg["truncate_words"]))
-            txt_embs.append(encoder.encode_texts([text])[0])
-        elif exp == "c3_2":
-            text = extractive_summarize_content(
-                feats["title"],
-                feats["content"],
-                feats.get("lead", ""),
-                max_sentences=int(d_cfg["summary_sentences"]),
-                max_words=int(d_cfg["summary_words"]),
-            )
-            txt_embs.append(encoder.encode_texts([text])[0])
+            if exp == "c3_1":
+                batch_texts.append(
+                    truncate_content(feats["content"], max_words=int(d_cfg["truncate_words"]))
+                )
+            elif exp == "c3_2":
+                batch_texts.append(
+                    extractive_summarize_content(
+                        feats["title"],
+                        feats["content"],
+                        feats.get("lead", ""),
+                        max_sentences=int(d_cfg["summary_sentences"]),
+                        max_words=int(d_cfg["summary_words"]),
+                    )
+                )
+            else:
+                chunks = chunk_content(
+                    feats["content"],
+                    chunk_words=int(d_cfg["chunk_words"]),
+                    overlap_words=int(d_cfg["overlap_words"]),
+                    max_chunks=max_chunks,
+                )
+                batch_chunk_counts.append(len(chunks))
+                batch_texts.extend(chunks)
+
+        img_embs.append(encoder.encode_images(batch_images, batch_size=img_bs))
+        encoded_texts = encoder.encode_texts(batch_texts, batch_size=txt_bs)
+
+        if exp in ("c3_1", "c3_2"):
+            txt_embs.append(encoded_texts)
         else:
-            chunks = chunk_content(
-                feats["content"],
-                chunk_words=int(d_cfg["chunk_words"]),
-                overlap_words=int(d_cfg["overlap_words"]),
-                max_chunks=max_chunks,
-            )
-            c_vecs = encoder.encode_texts(chunks)
-            padded = torch.zeros((max_chunks, embed_dim), dtype=torch.float32)
-            mask = torch.zeros(max_chunks, dtype=torch.float32)
-            k = min(len(chunks), max_chunks)
-            padded[:k] = c_vecs[:k]
-            mask[:k] = 1.0
-            chunk_embs_all.append(padded)
-            chunk_masks_all.append(mask)
+            offset = 0
+            for count in batch_chunk_counts:
+                padded = torch.zeros((max_chunks, embed_dim), dtype=torch.float32)
+                mask = torch.zeros(max_chunks, dtype=torch.float32)
+                k = min(count, max_chunks)
+                padded[:k] = encoded_texts[offset : offset + k]
+                mask[:k] = 1.0
+                chunk_embs_all.append(padded)
+                chunk_masks_all.append(mask)
+                offset += count
+
+        if end == total or (end // img_bs) % 20 == 0:
+            print(f"[encode:{split_name}] {end}/{total} articles", flush=True)
 
     bundle = {
         "article_id": article_ids,
-        "image_emb": torch.stack(img_embs),
+        "image_emb": torch.cat(img_embs, dim=0),
         "targets": torch.tensor(np.stack(targets_list), dtype=torch.int64),
         "masks": torch.tensor(np.stack(masks_list), dtype=torch.float32),
     }
     if exp in ("c3_1", "c3_2"):
-        bundle["text_emb"] = torch.stack(txt_embs)
+        bundle["text_emb"] = torch.cat(txt_embs, dim=0)
     else:
         bundle["chunk_embs"] = torch.stack(chunk_embs_all)
         bundle["chunk_mask"] = torch.stack(chunk_masks_all)
+
+    if cpath is not None:
+        torch.save(bundle, cpath)
+        print(f"[cache] Saved {split_name} embeddings to {cpath}", flush=True)
     return bundle
 
 
@@ -279,6 +340,7 @@ def run(
     dataset_root: str | Path | None = None,
     *,
     synthetic: bool = False,
+    skip_checksum: bool = False,
     output_root: str | Path = ROOT,
 ) -> Path:
     """Execute a full NV3 train + validation experiment and emit contract artifacts."""
@@ -305,13 +367,19 @@ def run(
         if dataset_root is None:
             raise ValueError("--dataset-root is required unless --synthetic is passed")
         root = Path(dataset_root)
-        validate(root)
+        if not skip_checksum:
+            validate(root)
         encoder = None if exp == "c3_6" else build_encoder(cfg, device_str)
         embed_dim = (
             int(cfg["encoder"].get("embed_dim", 64)) if encoder is None else encoder.embed_dim
         )
 
-        train_ds = ClickbaitDataset(root, "train", image_root=cfg["data"].get("image_root"))
+        train_ds = ClickbaitDataset(
+            root,
+            "train",
+            verify_checksums=not skip_checksum,
+            image_root=cfg["data"].get("image_root"),
+        )
         val_ds = ClickbaitDataset(
             root, "validation", verify_checksums=False, image_root=cfg["data"].get("image_root")
         )
@@ -339,6 +407,7 @@ def run(
             "official_benchmark": False,
             "device": device_str,
             "experiment": exp,
+            "checksum_verified": not skip_checksum,
         }
     )
     write_json(run_path / "run.json", metadata)
@@ -414,12 +483,18 @@ def run(
         val_outputs, val_metrics = evaluate(model, val_bundle, exp, batch_size, device)
         ic_macro_f1 = val_metrics["consistency"]["ic"]["macro_f1"]
         score = -1.0 if ic_macro_f1 is None else float(ic_macro_f1)
+        avg_loss = float(np.mean(epoch_losses))
+        print(
+            f"[epoch {epoch:02d}/{cfg['training']['epochs']}] "
+            f"loss={avg_loss:.4f} val_ic_macro_f1={score:.4f}",
+            flush=True,
+        )
         log_event(
             events_path,
             event="epoch_end",
             step=global_step,
             epoch=epoch,
-            train_loss=float(np.mean(epoch_losses)),
+            train_loss=avg_loss,
             val_ic_macro_f1=score,
         )
 
@@ -510,5 +585,15 @@ if __name__ == "__main__":
     parser.add_argument("--config", default=str(ROOT / "configs/consistency_ic.yaml"))
     parser.add_argument("--dataset-root", default=None)
     parser.add_argument("--synthetic", action="store_true")
+    parser.add_argument(
+        "--skip-checksum",
+        action="store_true",
+        help="Skip SHA-256 manifest verification for local runs.",
+    )
     args = parser.parse_args()
-    run(args.config, args.dataset_root, synthetic=args.synthetic)
+    run(
+        args.config,
+        args.dataset_root,
+        synthetic=args.synthetic,
+        skip_checksum=args.skip_checksum,
+    )

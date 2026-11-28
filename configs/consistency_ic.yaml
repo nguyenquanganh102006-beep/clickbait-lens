@@ -12,7 +12,8 @@ experiment: c3_5
 data:
   dataset_version: '1.0'
   image_root: null
-  cache_dir: null  # Optional directory to cache precomputed image/chunk embeddings (.pt)
+  # Cache extracted SigLIP 2 embeddings on disk so C3.3 / C3.4 / C3.5 reuse them in seconds
+  cache_dir: "E:/Clickbait/cache_ic_siglip2"
   nli_logits_dir: null  # Required only for c3_6: folder with train.pt & validation.pt
   # Long-text settings (dataset median=658 words, max=7,007 words)
   truncate_words: 180
@@ -23,12 +24,13 @@ data:
   max_chunks: 8
 
 encoder:
-  # Use "offline-hash" for quick local smoke tests without downloading weights.
-  # For real experiments, switch to "hf-vlm" and pin exact model_id + revision.
-  backend: offline-hash
+  # Real Vision-Language model on RTX 3060 Ti (switch to "offline-hash" only for smoke tests)
+  backend: hf-vlm
   model_id: google/siglip2-base-patch16-224
   revision: main
   max_length: 64
+  encode_batch_size: 32
+  text_batch_size: 64
   embed_dim: 64
 
 model:
