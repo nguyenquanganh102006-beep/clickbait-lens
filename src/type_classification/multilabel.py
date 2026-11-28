@@ -280,14 +280,21 @@ CLASSIFIERS = {
 
 class StackingMeta:
     """Level-2 model: for each label, logistic regression on ALL base models' probabilities of
-    ALL labels -> learns cross-label dependencies (e.g. P(emotional) informs curiosity)."""
+    ALL labels -> learns cross-label dependencies (e.g. P(emotional) informs curiosity).
+    cross_label=False keeps only label k's columns from each base (ablation: does label
+    dependency help?). P is the base models' outputs stacked side by side, K columns each."""
 
-    def __init__(self, C=1.0):
-        self.C = C
+    def __init__(self, C=1.0, cross_label=True):
+        self.C, self.cross_label = C, cross_label
+
+    def _cols(self, k, n_cols):
+        return slice(None) if self.cross_label else list(range(k, n_cols, self.K))
 
     def fit(self, P, Y):
-        Z = self._z(P)
-        self.models = [_lr(self.C).fit(Z, Y[:, k]) for k in range(Y.shape[1])]
+        Z, self.K = self._z(P), Y.shape[1]
+        self.models = [
+            _lr(self.C).fit(Z[:, self._cols(k, Z.shape[1])], Y[:, k]) for k in range(self.K)
+        ]
         return self
 
     @staticmethod
@@ -297,4 +304,9 @@ class StackingMeta:
 
     def predict_proba(self, P):
         Z = self._z(P)
-        return np.column_stack([m.predict_proba(Z)[:, 1] for m in self.models])
+        return np.column_stack(
+            [
+                m.predict_proba(Z[:, self._cols(k, Z.shape[1])])[:, 1]
+                for k, m in enumerate(self.models)
+            ]
+        )

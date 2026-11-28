@@ -114,6 +114,7 @@ def main():
         ("t1_2_tfidf_chains", "t1_1_tfidf_title_content_br"),
         ("t1_5_combined_lr", "t1_1_tfidf_title_content_br"),
         ("t1_5_stacking", "t1_5_combined_lr"),
+        ("t1_5_stacking", "t1_5_stacking_own_label"),
         ("t1_3_hand_catboost", "t1_0_prior"),
     ]
     tests = []
@@ -125,6 +126,27 @@ def main():
                 f"| `{a}` − `{b}` | {fmt(d['mean_diff'])} | [{fmt(d['ci95'][0])}; {fmt(d['ci95'][1])}] | "
                 f"{fmt(d['p_not_better'])} |"
             )
+    # ---- table 4b: per-label ablations (research questions 2 and 3 of the branch)
+    w("\n### Bảng 4b. Ablation theo từng nhãn (ΔF1, bootstrap ghép cặp theo nhóm leakage)\n")
+    w("| Ablation (A − B) | " + " | ".join(SHORT) + " |")
+    w("|---|" + "---:|" * 5)
+    ablations = [
+        ("Thêm nội dung", "t1_1_tfidf_title_content_br", "t1_1_tfidf_title_br"),
+        ("Logit mọi nhãn vs cùng nhãn", "t1_5_stacking", "t1_5_stacking_own_label"),
+    ]
+    label_tests = []
+    for name, a, b in ablations:
+        if a not in P or b not in P:
+            continue
+        cells = []
+        for i, t in enumerate(TYPES):
+            d = paired_bootstrap(P[a], TH[a], P[b], TH[b], Y, G, label=i)
+            label_tests.append({"ablation": name, "a": a, "b": b, "label": t, **d})
+            star = "*" if d["ci95"][0] > 0 or d["ci95"][1] < 0 else ""
+            v = f"{d['mean_diff']:+.3f}".replace("-0.000", "0.000").replace("+0.000", "0.000")
+            cells.append(f"{v}{star}".replace(".", ",").replace("-", "−"))
+        w(f"| {name} (`{a}` − `{b}`) | " + " | ".join(cells) + " |")
+    w("\n\\* khoảng tin cậy 95% không chứa 0.")
     # ---- table 5: per-label best method + logic
     w("\n### Bảng 5. Mô hình tốt nhất theo từng nhãn\n")
     w("| Nhãn | Mô hình tốt nhất | F1 | Mô hình chung tốt nhất (`" + best + "`) |")
@@ -160,6 +182,7 @@ def main():
         "best_overall": best,
         "best_per_label": best_per_label,
         "paired_tests": tests,
+        "per_label_ablations": label_tests,
         "errors_best": errors,
         "gold_i_predicted_j": conf.round(3).tolist(),
         "per_source_best": runs[best]["per_source_macro_f1"],

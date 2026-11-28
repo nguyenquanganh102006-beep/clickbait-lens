@@ -15,6 +15,7 @@
 | T1.4 | `t1_4_semantic_lr` | **0,435** [0,418–0,451] | 0,462 | 0,172 | 0,472 | 0,404 | 0,457 |
 | T1.5 | `t1_5_combined_lr` | **0,444** [0,428–0,461] | 0,481 | 0,163 | 0,490 | 0,416 | 0,460 |
 | T1.5 | `t1_5_stacking` | **0,506** [0,489–0,524] | 0,535 | 0,135 | 0,556 | 0,471 | 0,516 |
+| T1.5 | `t1_5_stacking_own_label` | **0,505** [0,488–0,523] | 0,530 | 0,136 | 0,556 | 0,468 | 0,519 |
 
 ### Bảng 2. F1 từng nhãn (validation)
 
@@ -32,6 +33,7 @@
 | `t1_4_semantic_lr` | 0,526 | 0,505 | 0,489 | 0,521 | 0,135 |
 | `t1_5_combined_lr` | 0,538 | 0,525 | 0,498 | 0,511 | 0,149 |
 | `t1_5_stacking` | 0,569 | 0,551 | 0,544 | 0,646 | 0,220 |
+| `t1_5_stacking_own_label` | 0,566 | 0,543 | 0,553 | 0,647 | 0,218 |
 
 ### Bảng 3. Ảnh hưởng của chiến lược threshold (Macro-F1 validation)
 
@@ -49,6 +51,7 @@
 | `t1_4_semantic_lr` | 0,429 | 0,432 | 0,435 |
 | `t1_5_combined_lr` | 0,442 | 0,442 | 0,444 |
 | `t1_5_stacking` | 0,465 | 0,498 | 0,506 |
+| `t1_5_stacking_own_label` | 0,470 | 0,501 | 0,505 |
 
 ### Bảng 4. Kiểm định bootstrap ghép cặp (theo nhóm leakage, 2.000 lần)
 
@@ -59,7 +62,17 @@
 | `t1_2_tfidf_chains` − `t1_1_tfidf_title_content_br` | -0,005 | [-0,014; 0,003] | 0,887 |
 | `t1_5_combined_lr` − `t1_1_tfidf_title_content_br` | -0,038 | [-0,054; -0,022] | 1,000 |
 | `t1_5_stacking` − `t1_5_combined_lr` | 0,062 | [0,048; 0,075] | 0,000 |
+| `t1_5_stacking` − `t1_5_stacking_own_label` | 0,001 | [-0,006; 0,008] | 0,428 |
 | `t1_3_hand_catboost` − `t1_0_prior` | 0,236 | [0,222; 0,251] | 0,000 |
+
+### Bảng 4b. Ablation theo từng nhãn (ΔF1, bootstrap ghép cặp theo nhóm leakage)
+
+| Ablation (A − B) | Curiosity | Exaggeration | Emotional | Question | Misleading |
+|---|---:|---:|---:|---:|---:|
+| Thêm nội dung (`t1_1_tfidf_title_content_br` − `t1_1_tfidf_title_br`) | +0,016* | +0,013 | +0,028* | −0,009 | +0,030* |
+| Logit mọi nhãn vs cùng nhãn (`t1_5_stacking` − `t1_5_stacking_own_label`) | +0,003 | +0,008 | −0,010 | 0,000 | +0,002 |
+
+\* khoảng tin cậy 95% không chứa 0.
 
 ### Bảng 5. Mô hình tốt nhất theo từng nhãn
 
@@ -67,7 +80,7 @@
 |---|---|---:|---:|
 | Curiosity | `t1_5_stacking` | 0,569 | 0,569 |
 | Exaggeration | `t1_5_stacking` | 0,551 | 0,551 |
-| Emotional | `t1_5_stacking` | 0,544 | 0,544 |
+| Emotional | `t1_5_stacking_own_label` | 0,553 | 0,544 |
 | Question | `t1_3_hand_catboost` | 0,651 | 0,646 |
 | Misleading | `t1_5_stacking` | 0,220 | 0,220 |
 

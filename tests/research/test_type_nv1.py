@@ -65,6 +65,17 @@ def test_stacking_meta_shapes():
     assert meta.predict_proba(np.hstack([P, P])).shape == Y.shape
 
 
+def test_stacking_own_label_ignores_other_labels():
+    X, Y = _toy()
+    P = multilabel.BinaryRelevance().fit(X, Y).predict_proba(X)
+    Ptr = np.hstack([P, P[::-1]])
+    meta = multilabel.StackingMeta(cross_label=False).fit(Ptr, Y)
+    Q = Ptr.copy()
+    Q[:, [1, 2, 3, 4, 6, 7, 8, 9]] = 0.5  # every column except label 0 of each base
+    assert np.allclose(meta.predict_proba(Ptr)[:, 0], meta.predict_proba(Q)[:, 0])
+    assert len(meta.models[0].coef_[0]) == 2
+
+
 def test_features_fit_only_on_given_rows():
     titles = ["giá vàng hôm nay", "giá xăng hôm nay", "vì sao giá vàng tăng"] * 4
     view = {

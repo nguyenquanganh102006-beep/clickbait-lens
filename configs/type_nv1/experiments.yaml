@@ -83,3 +83,9 @@ experiments:
     stack: [t1_1_tfidf_title_content_br, t1_2_tfidf_chains, t1_3_hand_catboost,
             t1_4_semantic_lr, t1_5_combined_lr]
     meta: {C: 1.0}
+  t1_5_stacking_own_label:
+    id: T1.5
+    # ablation of t1_5_stacking: label k's meta-model sees only label k's logits from each base
+    stack: [t1_1_tfidf_title_content_br, t1_2_tfidf_chains, t1_3_hand_catboost,
+            t1_4_semantic_lr, t1_5_combined_lr]
+    meta: {C: 1.0, cross_label: false}

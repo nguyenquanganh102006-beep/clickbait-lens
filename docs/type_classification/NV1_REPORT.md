@@ -9,14 +9,15 @@ mọi số liệu dưới đây là trên **validation** (4.206 bài). **Test kh
 | # | Đóng góp | Kết quả chính |
 |---|---|---|
 | 1 | Giao thức đánh giá trung thực | Siêu tham số, threshold, stacking đều chọn trên **dự đoán out-of-fold** (5-fold GroupKFold theo nhóm leakage) của train; validation chỉ chấm **một lần**, kèm 95% CI bootstrap theo nhóm |
-| 2 | Đủ 5 thí nghiệm T1.1–T1.5 + baseline | 13 cấu hình: Binary Relevance, Classifier Chains, Label Powerset, OvR SVM, OvR CatBoost, semantic, combined, stacking |
+| 2 | Đủ 5 thí nghiệm T1.1–T1.5 + baseline | 14 cấu hình: Binary Relevance, Classifier Chains, Label Powerset, OvR SVM, OvR CatBoost, semantic, combined, stacking (+ ablation) |
 | 3 | **Mô hình tốt nhất: stacking** | Macro-F1 **0,506** [0,489–0,524], Micro-F1 0,535, Hamming 0,135; hơn baseline TF-IDF tiêu đề **+0,040** (p < 0,001) |
 | 4 | Đặc trưng tiếng Việt giải thích được | 33 đặc trưng (thống kê, dấu câu, từ điển 5 chiến thuật, quan hệ tiêu đề–nội dung) đạt Macro-F1 0,448; **tốt nhất cho Question-based (F1 0,651)**, hơn cả TF-IDF |
 | 5 | Kiểm định thống kê đặc trưng | Mann-Whitney + FDR: 123/165 cặp đặc trưng×nhãn có ý nghĩa (q < 0,001); từ điển Fisher: odds ratio 2,6–16,4; Fightin' Words chỉ ra nhiễu chủ đề |
-| 6 | **Kiểm định chất lượng nhãn** | κ giữa 2 lượt gán AI chỉ 0,20 (Question) – 0,62 (Curiosity); tỉ lệ nhãn chênh **7–25 lần** theo pipeline gán nhãn, pipeline trùng gần hoàn toàn với nguồn báo |
+| 6 | **Kiểm định chất lượng nhãn** | κ giữa 2 lượt gán AI chỉ 0,20 (Question) – 0,62 (Curiosity); tỉ lệ Curiosity/Exaggeration/Emotional chênh **8–27 lần** giữa pipeline gán nhanh và pipeline đồng thuận; pipeline trùng gần hoàn toàn với nguồn báo |
 | 7 | **Confident Learning + danh sách rà soát** | Ước lượng 3,6–19,8% nhãn nghi sai theo loại; bài bị nghi có tỉ lệ 2 lượt gán bất đồng gấp **18–739 lần** (kiểm chứng phương pháp); xuất hàng đợi rà soát cho bước gold của nhóm |
 | 8 | Độ bền theo nguồn (leave-one-source-out) | Bỏ hẳn một báo khỏi train, AUPRC trên báo đó chỉ giảm ≤ 0,036 → mô hình học tín hiệu chuyển giao được, không chỉ "nhận mặt" nguồn |
 | 9 | Learning curve | AUPRC 0,355 (10% train) → 0,442 (100%), vẫn tăng nhưng chậm dần; Misleading thấp và tăng chậm → cần nhãn tốt hơn hơn là thêm dữ liệu |
+| 10 | Trả lời 4/5 câu hỏi nghiên cứu của nhánh bằng thí nghiệm có kiểm định | Mục 9: loại nào chỉ cần ngôn ngữ, loại nào cần nội dung, quan hệ nhãn có giúp không, threshold riêng có nên dùng |
 
 ## 1. Bài toán và dữ liệu
 
@@ -91,6 +92,7 @@ số trong tiêu đề không xuất hiện trong bài, tỉ lệ độ dài ti�
 | T1.4 | Semantic + thủ công + CatBoost | 0,487 [0,471–0,503] | 0,498 | 0,166 | 0,502 | 0,461 | 0,502 |
 | T1.5 | Ghép tất cả + LR | 0,444 [0,428–0,461] | 0,481 | 0,163 | 0,490 | 0,416 | 0,460 |
 | T1.5 | **Stacking** | **0,506 [0,489–0,524]** | **0,535** | **0,135** | **0,556** | **0,471** | 0,516 |
+| T1.5 | Stacking chỉ logit cùng nhãn *(ablation)* | 0,505 [0,488–0,523] | 0,530 | 0,136 | 0,556 | 0,468 | 0,519 |
 
 ### Bảng 2. F1 từng nhãn
 
@@ -130,14 +132,29 @@ Ngưỡng từng nhãn chọn trên OOF **không bao giờ kém** 0,5 cố đị
 | Ghép tất cả (early fusion) − TF-IDF tiêu đề + nội dung | −0,038 | [−0,054; −0,022] | 1,000 |
 | **Stacking (late fusion) − ghép tất cả** | **+0,062** | [+0,048; +0,075] | < 0,001 |
 | Thủ công + CatBoost − Prior | +0,236 | [+0,222; +0,251] | < 0,001 |
+| Stacking dùng logit mọi nhãn − chỉ logit cùng nhãn | +0,001 | [−0,006; +0,008] | 0,428 |
+
+### Bảng 4b. Ablation theo từng nhãn (ΔF1, bootstrap ghép cặp theo nhóm leakage)
+
+| Ablation (A − B) | Curiosity | Exaggeration | Emotional | Question | Misleading |
+|---|---:|---:|---:|---:|---:|
+| Thêm nội dung (TF-IDF tiêu đề + nội dung − tiêu đề) | +0,016\* | +0,013 | +0,028\* | −0,009 | **+0,030\*** |
+| Stacking: logit mọi nhãn − chỉ logit cùng nhãn | +0,003 | +0,008 | −0,010 | 0,000 | +0,002 |
+
+\* khoảng tin cậy 95% không chứa 0.
 
 Kết luận có ý nghĩa thống kê:
 
-1. **Nội dung bài có ích** nhưng nhỏ (+0,016): chiến thuật clickbait chủ yếu nằm ở tiêu đề.
-2. **Classifier Chains không hơn Binary Relevance** dù nhãn đồng xuất hiện mạnh: khi đặc trưng văn bản đã tốt, thông tin
-   "nhãn kia" phần lớn đã nằm sẵn trong đặc trưng.
+1. **Nội dung bài có ích** nhưng nhỏ (+0,016): chiến thuật clickbait chủ yếu nằm ở tiêu đề. Theo từng nhãn (Bảng 4b),
+   nội dung giúp **có ý nghĩa** cho Misleading (+0,030), Emotional (+0,028), Curiosity (+0,016); **không giúp** Question
+   (−0,009) — đúng với định nghĩa: câu hỏi nằm ở tiêu đề, còn "gây hiểu lầm" phải đối chiếu với nội dung.
+2. **Quan hệ nhãn không giúp dự đoán thêm**, kiểm chứng bằng hai cách độc lập: Classifier Chains không hơn Binary
+   Relevance (−0,005), và stacking cho mỗi nhãn xem logit của **mọi** nhãn không hơn stacking chỉ xem logit **cùng**
+   nhãn (+0,001, p = 0,43; từng nhãn đều không có ý nghĩa). Dù nhãn đồng xuất hiện mạnh (mục 1), thông tin "nhãn kia"
+   đã nằm sẵn trong đặc trưng văn bản. Lợi ích của stacking đến từ **kết hợp nhiều mô hình nền**, không phải từ phụ
+   thuộc nhãn. → Gợi ý cho NV3 hướng A: cần chứng minh GNN/label attention hơn được mốc này.
 3. **Ghép thẳng các khối đặc trưng làm giảm hiệu năng** (TF-IDF thưa ~400k chiều lấn át 1.200 chiều dày), còn
-   **stacking** (mỗi nhóm đặc trưng một mô hình riêng, rồi học cách kết hợp trên logit của mọi nhãn) cho kết quả tốt
+   **stacking** (mỗi nhóm đặc trưng một mô hình riêng, rồi học cách kết hợp trên logit của các mô hình) cho kết quả tốt
    nhất. Đây là cải tiến so với hướng "Combined Features + ML" gợi ý trong plan.
 4. Embedding ngữ nghĩa một mình (0,435) **thua** TF-IDF và cả 33 đặc trưng thủ công: clickbait phụ thuộc vào **cách
    viết** (từ ngữ, dấu câu, cấu trúc) hơn là **nghĩa**; nhưng embedding có ích khi kết hợp (CatBoost 0,487, stacking).
@@ -149,7 +166,7 @@ Kết luận có ý nghĩa thống kê:
 | Question | Thủ công + CatBoost (**0,651**) | dấu `?` chiếm phần lớn độ quan trọng; "gì, nào, sao, tại sao" |
 | Curiosity | Stacking (0,569) | "này, lộ, ngờ, thứ, sự thật, bí, lạ"; tiêu đề dài so với sapo, ít trùng từ với sapo |
 | Exaggeration | Stacking (0,551) | "sốc, chưa từng, tỷ", dấu ngoặc kép, dấu `:`; tỉ lệ dài tiêu đề/sapo |
-| Emotional | Stacking (0,544) | "khóc, nước mắt, sốc, sợ, đau, kinh hoàng"; mật độ từ cảm xúc trong nội dung |
+| Emotional | Stacking (0,544; bản chỉ logit cùng nhãn 0,553) | "khóc, nước mắt, sốc, sợ, đau, kinh hoàng"; mật độ từ cảm xúc trong nội dung |
 | Misleading | Stacking (**0,220**) | yếu: từ chủ đề ("loại, tâm lý, triệu người") — **nhãn khó nhất** |
 
 - **Question-based "giải được" bằng đặc trưng thủ công**: trả lời trực tiếp câu hỏi nghiên cứu của nhánh "loại nào
@@ -172,8 +189,8 @@ Kết luận có ý nghĩa thống kê:
 | Question | **0,20** | 95,8% |
 
 **Thiên lệch theo pipeline gán nhãn** (χ², p < 1e-9 với mọi nhãn): pipeline nhanh 1 lượt cho Curiosity 25,7%, Exaggeration
-23,2%, Emotional 15,7%; pipeline đồng thuận 2 lượt chỉ 3,3%, 0,9%, 0,8%. **Nhưng 20/21 báo chỉ dùng một pipeline**
-(Cramér's V nguồn × pipeline = 0,51): chênh lệch "báo nào nhiều clickbait hơn" **không tách được** khỏi chênh lệch do
+23,2%, Emotional 15,7%; pipeline đồng thuận 2 lượt chỉ 3,3%, 0,9%, 0,8%. **Nhưng 20/21 báo gần như chỉ dùng một
+pipeline** (các pipeline khác < 50 bài/báo; Cramér's V nguồn × pipeline = 0,51): chênh lệch "báo nào nhiều clickbait hơn" **không tách được** khỏi chênh lệch do
 cách gán nhãn. Không nên kết luận về tỉ lệ clickbait theo nguồn từ dữ liệu hiện tại.
 
 **Confident Learning** (Northcutt et al., 2021) trên xác suất OOF của mô hình tốt nhất:
@@ -208,7 +225,25 @@ nội dung** quan trọng hơn thêm số lượng.
 
 ![LOSO](nv1/figures/11_leave_one_source_out.png) ![Learning curve](nv1/figures/12_learning_curve.png)
 
-## 9. Ràng buộc Detection–Type và lỗi
+## 9. Trả lời các câu hỏi nghiên cứu của nhánh và cải tiến so với plan
+
+| Câu hỏi (Plan, mục 2.1) | Trả lời từ NV1 | Bằng chứng |
+|---|---|---|
+| Loại nào phát hiện được chỉ từ đặc trưng ngôn ngữ? | **Question-based** (F1 0,651 chỉ với 33 đặc trưng; dấu `?` r = +0,83); Curiosity 0,513, Exaggeration 0,492, Emotional 0,434 — thấp hơn khi có TF-IDF/kết hợp | Bảng 2, mục 3 |
+| Loại nào cần hiểu nội dung? | **Misleading, Emotional, Curiosity** được lợi có ý nghĩa khi thêm nội dung; Question thì không | Bảng 4b |
+| Quan hệ đồng xuất hiện có giúp dự đoán? | **Không** với mô hình cổ điển: Chains ≈ BR, stacking mọi nhãn ≈ stacking cùng nhãn | Bảng 4, 4b |
+| Có nên dùng threshold riêng từng nhãn? | **Có**: không bao giờ kém 0,5; +0,146 với SVM, +0,041 với stacking | Bảng 3 |
+| Joint Detection–Type? | Thuộc NV3; NV1 đo mốc vi phạm logic (23,1% / 22,3%) để NV3 so sánh | mục 10 |
+
+Cải tiến so với gợi ý trong plan (plan chỉ nêu T1.1–T1.5):
+
+1. **Stacking** thay cho "Combined Features" đơn thuần: +0,062 so với ghép đặc trưng, +0,040 so với baseline.
+2. **Giao thức OOF + GroupKFold** theo nhóm leakage, 95% CI và kiểm định ghép cặp cho mọi so sánh.
+3. **Ablation** nội dung và quan hệ nhãn theo từng nhãn — trả lời trực tiếp câu hỏi nghiên cứu thay vì chỉ báo điểm.
+4. **Phân tích chất lượng nhãn** (κ, thiên lệch pipeline, Confident Learning) và **hàng đợi rà soát** cho nhóm.
+5. **Leave-one-source-out, learning curve, Fightin' Words**: kiểm tra mô hình học chiến thuật hay học nguồn/chủ đề.
+
+## 10. Ràng buộc Detection–Type và lỗi
 
 - Suy ra Detection từ Type (có ≥ 1 Type ⇒ clickbait): F1 0,726. Tỉ lệ vi phạm logic: dự đoán có Type trên bài gold
   non-clickbait **23,1%**; không Type nào trên bài gold clickbait 22,3%. Khi ghép với mô hình Detection của Nhánh 1, nên
@@ -216,7 +251,7 @@ nội dung** quan trọng hơn thêm số lượng.
 - Lỗi thường gặp: dương tính giả ở bài sức khoẻ/tử vi dạng liệt kê (con giáp, thực phẩm "trường thọ") cho Misleading
   — nhiều trường hợp chính là **nhãn còn thiếu** (mục 7); âm tính giả ở tiêu đề tin thời sự bị gán nhãn chiến thuật.
 
-## 10. Hạn chế và đề xuất
+## 11. Hạn chế và đề xuất
 
 - Nhãn là pseudo-label; test gold chưa có → mọi kết luận là trên validation pseudo. Khi có gold, chạy lại cùng script.
 - Snapshot `data.csv` dựng lại từ `GĐ3/Labeled_data/data.csv` (SHA khớp `source_sha256` của manifest) + split chính
@@ -225,9 +260,12 @@ nội dung** quan trọng hơn thêm số lượng.
   lệch; (2) dùng hàng đợi Confident Learning để ưu tiên rà soát gold; (3) Misleading cần mô hình đọc hiểu quan hệ
   tiêu đề–nội dung (NV2/NV3).
 
-## 11. Tái lập
+## 12. Tái lập
+
+Ngoài `requirements-research-dev.txt` (đủ cho test/CI), script huấn luyện và báo cáo cần thêm:
 
 ```bash
+python -m pip install catboost==1.2.10 matplotlib==3.10.8 transformers==4.57.6
 python scripts/type_nv1_features.py --dataset-root ../data_pr/dataset_v1.0 --out ../data_pr/nv1_cache --embeddings
 python scripts/type_nv1_eda.py --dataset-root ../data_pr/dataset_v1.0 --cache ../data_pr/nv1_cache
 python scripts/train_type_nv1.py --config configs/type_nv1/experiments.yaml --dataset-root ../data_pr/dataset_v1.0 --cache ../data_pr/nv1_cache

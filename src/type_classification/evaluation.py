@@ -99,9 +99,13 @@ def bootstrap_ci(P, Y, thresholds, groups, n=1000, seed=20261124, metric=macro_f
     return [float(np.percentile(stats, 2.5)), float(np.percentile(stats, 97.5))]
 
 
-def paired_bootstrap(Pa, tha, Pb, thb, Y, groups, n=2000, seed=20261124):
+def paired_bootstrap(Pa, tha, Pb, thb, Y, groups, n=2000, seed=20261124, label=None):
     """Macro-F1(a) - Macro-F1(b) on the same resampled groups: mean, 95% CI, one-sided p
-    (share of resamples where a is not better)."""
+    (share of resamples where a is not better). label=k compares F1 of label k only."""
+    if label is not None:
+        k = label
+        Pa, Pb, Y = Pa[:, [k]], Pb[:, [k]], Y[:, [k]]
+        tha, thb = [np.asarray(tha)[k]], [np.asarray(thb)[k]]
     rng = np.random.default_rng(seed)
     uniq, inv = np.unique(np.asarray(groups), return_inverse=True)
     members = [np.where(inv == g)[0] for g in range(len(uniq))]
